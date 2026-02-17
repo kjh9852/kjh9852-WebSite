@@ -18,7 +18,7 @@ export const animationTrigger = [
     label: 'parallaxStart',
   },
   {
-    target: '.moutainBack01',
+    target: '.mountainBack01',
     props: {
       y: 100 * speed,
       scale: 1,
@@ -27,7 +27,7 @@ export const animationTrigger = [
     // offset: 0.01,
   },
   {
-    target: '.moutainBack02',
+    target: '.mountainBack02',
     props: {
       y: 30 * speed,
       scale: 1,
@@ -54,7 +54,7 @@ export const animationTrigger = [
     // offset: 0,
   },
   {
-    target: '.moutainFront01',
+    target: '.mountainFront01',
     props: {
       y: 100 * speed,
       scale: 0,
@@ -85,7 +85,7 @@ export const animationTrigger = [
     // offset: 0.01,
   },
   {
-    target: '.moutainFill',
+    target: '.mountainFill',
     props: {
       y: -10 * speed,
       scale: 3,
@@ -95,7 +95,7 @@ export const animationTrigger = [
     // offset: 0,
   },
   {
-    target: '.moutainFill',
+    target: '.mountainFill',
     props: {
       fill: '#8edccd',
       duration: 0.1,
@@ -105,7 +105,7 @@ export const animationTrigger = [
     // offset: 0,
   },
   {
-    target: '.moutainFill',
+    target: '.mountainFill',
     props: {
       autoAlpha: 0,
       duration: 1, // 원하는 페이드아웃 시간

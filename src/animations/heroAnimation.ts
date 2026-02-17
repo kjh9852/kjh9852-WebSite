@@ -10,18 +10,18 @@ export const animation = [
     to: { y: 0, scale: 1, ease: 'power2.out', duration: 3 },
   },
   {
-    target: '.moutainBack01',
+    target: '.mountainBack01',
     from: { y: 1000, scale: 1 },
     to: { y: 0, scale: 1, ease: 'expo.out', duration: 3 },
   },
   {
-    target: '.moutainBack02',
+    target: '.mountainBack02',
     from: { y: 1000, scale: 1 },
     to: { y: 0, scale: 1, ease: 'expo.out', duration: 3 },
     offset: 1,
   },
   {
-    target: '.moutainFront01',
+    target: '.mountainFront01',
     from: { y: 1000, scale: 1 },
     to: { y: 0, scale: 1, ease: 'expo.out', duration: 1.7, delay: 1 },
   },
@@ -36,7 +36,7 @@ export const animation = [
     to: { y: 0, scale: 1, ease: 'expo.out', duration: 3 },
   },
   {
-    target: '.moutainBlack',
+    target: '.mountainBlack',
     from: { y: 1000, scale: 1 },
     to: { y: 0, scale: 1, ease: 'back.out(2)', duration: 1.5 },
   },
