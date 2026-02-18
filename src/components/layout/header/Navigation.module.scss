@@ -1,0 +1,31 @@
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  flex: 1 0;
+}
+
+.navList {
+  flex: 1 0 auto;
+  padding: 0 10px;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+
+  a {
+    display: block;
+    line-height: 60px;
+    transition: all 0.3s ease;
+    &:hover {
+      color: rgb(0, 7, 199);
+    }
+  }
+
+  &.active {
+    a {
+      color: rgb(0, 7, 199);
+    }
+  }
+}
