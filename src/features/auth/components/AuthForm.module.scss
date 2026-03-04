@@ -1,0 +1,95 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 44px;
+  padding-bottom: 44px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+  margin-bottom: 28px;
+  max-width: 380px;
+  min-width: 320px;
+  width: 100%;
+  height: 100%;
+}
+
+.inputContainer {
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.previewImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.fileContainer {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.fileLabel {
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  z-index: 2;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.fileInput {
+  display: none;
+}
+
+.filePreview {
+  position: absolute;
+  top: 0;
+}
+
+.buttonContainer {
+  margin-top: 24px;
+}
+
+.loginButton {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 8px;
+  background: #7eedda;
+
+  &:disabled {
+    color: #555;
+    background: #ededed;
+    cursor: default;
+  }
+}
+
+.signUpButton {
+  text-decoration: underline;
+  font-size: 14px;
+  cursor: pointer;
+}
