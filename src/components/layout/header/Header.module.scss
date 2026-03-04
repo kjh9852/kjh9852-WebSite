@@ -30,3 +30,31 @@
   width: 550px;
   height: 100%;
 }
+
+.loginButton {
+  cursor: pointer;
+}
+
+.buttonText {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.profileIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+
+.profileName {
+  font-size: 1.6rem;
+  font-weight: 500;
+}

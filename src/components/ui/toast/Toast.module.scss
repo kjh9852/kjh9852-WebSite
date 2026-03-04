@@ -1,0 +1,37 @@
+.container {
+  width: 380px;
+  height: 45px;
+  padding: 12px;
+  border: solid 1px #62a890;
+  border-radius: 8px;
+  background: #f0faf7;
+  z-index: 55;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contentContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  p {
+    font-size: 14px;
+  }
+}
+
+.warning {
+  border: solid 1px #a24d50;
+  color: #6b1216;
+  background: #fdf1f0;
+}
+
+.success {
+  border: solid 1px #62a890;
+  color: #052f20;
+  background: #f0faf7;
+}

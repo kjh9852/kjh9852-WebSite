@@ -1,0 +1,35 @@
+.button {
+  padding: 12px 14px;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 8px;
+  background: #7eedda;
+  cursor: pointer;
+}
+
+.submit {
+  &:disabled {
+    color: #555;
+    background: #ededed;
+    cursor: default;
+  }
+}
+
+.warning {
+  background: #f5263e;
+}
+
+.underline {
+  padding: 0;
+  text-decoration: underline;
+  font-size: 14px;
+  background: none;
+}
+
+.small {
+  padding: 0;
+}
+
+.full {
+  width: 100%;
+}
