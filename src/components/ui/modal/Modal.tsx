@@ -6,6 +6,12 @@ import { ProfileSetting, Withdrawal } from '@/features/profile';
 import { useModalStore } from '@/store/modalStore';
 
 import styles from './Modal.module.scss';
+const MODAL_COMPONENT = {
+  signIn: SignIn,
+  signUp: SignUp,
+  profileSetting: ProfileSetting,
+  withdrawal: Withdrawal,
+} as const;
 
 export default function Modal() {
   const { isOpen, modalType, closeModal } = useModalStore();
@@ -20,10 +26,7 @@ export default function Modal() {
     closeModalRef.current = closeModal;
   }, [closeModal]);
 
-  const handleCloseAnimation = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-  };
+  const ModalComponent = modalType ? MODAL_COMPONENT[modalType] : null;
 
   useEffect(() => {
     if (!isOpen && !isAnimating) return;
@@ -102,7 +105,7 @@ export default function Modal() {
         ref={modalRef}
         className={`${styles.container} ${modalType ? styles[modalType] : ''}`}
       >
-        {modalType && renderModalType()}
+        {ModalComponent && <ModalComponent />}
       </div>
     </div>
   );
