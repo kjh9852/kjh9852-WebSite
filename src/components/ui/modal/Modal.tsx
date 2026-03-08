@@ -40,7 +40,7 @@ export default function Modal() {
     tl.current = gsap
       .timeline()
       .fromTo(modalRef.current, { y: 50, opacity: 0 }, { y: 0, opacity: 1 })
-        .fromTo(backDropRef.current, { opacity: 0 }, { opacity: 1 }, '<0.03');
+      .fromTo(backDropRef.current, { opacity: 0 }, { opacity: 1 }, '<0.03');
   }, [isOpen, shouldRender]);
 
   const handleClose = useCallback(() => {
@@ -60,12 +60,12 @@ export default function Modal() {
       })
       .to(modalRef.current, { y: 50, opacity: 0 })
       .to(
-          backDropRef.current,
-          {
-            opacity: 0,
-          },
-          '<0.03'
-        );
+        backDropRef.current,
+        {
+          opacity: 0,
+        },
+        '<0.03'
+      );
   }, [closeModal, isOpen]);
 
   useEffect(() => {
@@ -91,10 +91,7 @@ export default function Modal() {
         className={styles.backDrop}
         onClick={handleClose}
       />
-      <div
-        ref={modalRef}
-        className={`${styles.container} ${modalType ? styles[modalType] : ''}`}
-      >
+      <div ref={modalRef} className={styles.modal}>
         {ModalComponent && <ModalComponent />}
       </div>
     </div>
