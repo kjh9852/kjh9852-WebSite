@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 import { SignIn, SignUp } from '@/features/auth';
 import { ProfileSetting, Withdrawal } from '@/features/profile';
@@ -17,14 +17,7 @@ export default function Modal() {
   const { isOpen, modalType, closeModal } = useModalStore();
   const modalRef = useRef<HTMLDivElement>(null);
   const backDropRef = useRef<HTMLDivElement>(null);
-  const closeModalRef = useRef(closeModal);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const container = useRef<HTMLDivElement>(null);
-  const startAnimation = useRef<gsap.core.Timeline | null>(null);
-
-  useEffect(() => {
-    closeModalRef.current = closeModal;
-  }, [closeModal]);
+  const isClosingRef = useRef(false);
 
   const ModalComponent = modalType ? MODAL_COMPONENT[modalType] : null;
 
@@ -46,61 +39,52 @@ export default function Modal() {
           { y: 0, opacity: 1, clearProps: 'transform' }
         )
         .fromTo(backDropRef.current, { opacity: 0 }, { opacity: 1 }, '<0.03');
-    } else if (isAnimating) {
-      startAnimation.current
-        .fromTo(
-          modalRef.current,
-          { y: 0, opacity: 1 },
-          {
-            y: 50,
-            yPercent: -50,
-            opacity: 0,
-            clearProps: 'transform',
-          }
-        )
-        .fromTo(
+  const handleClose = useCallback(() => {
+    if (isClosingRef.current || !isOpen) return;
+
+    isClosingRef.current = true;
+
+    tl.current?.kill();
+
+    tl.current = gsap
+      .timeline({
+        onComplete: () => {
+          setShouldRender(false);
+          closeModal();
+          isClosingRef.current = false;
+        },
+      })
+      .to(modalRef.current, { y: 50, opacity: 0 })
+      .to(
           backDropRef.current,
-          { opacity: 1 },
           {
             opacity: 0,
-            onComplete: () => {
-              setIsAnimating(false);
-              closeModalRef.current();
-            },
           },
           '<0.03'
         );
-    }
+  }, [closeModal, isOpen]);
 
-    return () => {
-      startAnimation.current?.kill();
+  useEffect(() => {
+    if (!shouldRender) return;
+
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
     };
-  }, [isOpen, isAnimating]);
 
-  if (!isOpen && !isAnimating) return null;
+    window.addEventListener('keydown', handleEsc);
 
-  const renderModalType = () => {
-    switch (modalType) {
-      case 'signIn':
-        return <SignIn />;
-      case 'signUp':
-        return <SignUp />;
-      case 'profileSetting':
-        return <ProfileSetting />;
-      case 'withdrawal':
-        return <Withdrawal />;
-      default:
-        return null;
-    }
-  };
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [handleClose, shouldRender]);
 
   return (
     <div ref={container}>
       <div
         ref={backDropRef}
         className={styles.backDrop}
-        onClick={handleCloseAnimation}
-      ></div>
+        onClick={handleClose}
+      />
       <div
         ref={modalRef}
         className={`${styles.container} ${modalType ? styles[modalType] : ''}`}
