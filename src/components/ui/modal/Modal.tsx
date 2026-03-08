@@ -1,3 +1,4 @@
+import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
@@ -6,6 +7,7 @@ import { ProfileSetting, Withdrawal } from '@/features/profile';
 import { useModalStore } from '@/store/modalStore';
 
 import styles from './Modal.module.scss';
+
 const MODAL_COMPONENT = {
   signIn: SignIn,
   signUp: SignUp,
@@ -17,28 +19,30 @@ export default function Modal() {
   const { isOpen, modalType, closeModal } = useModalStore();
   const modalRef = useRef<HTMLDivElement>(null);
   const backDropRef = useRef<HTMLDivElement>(null);
+
+  const tl = useRef<gsap.core.Timeline | null>(null);
   const isClosingRef = useRef(false);
+
+  const [shouldRender, setShouldRender] = useState(isOpen);
 
   const ModalComponent = modalType ? MODAL_COMPONENT[modalType] : null;
 
   useEffect(() => {
-    if (!isOpen && !isAnimating) return;
-    startAnimation.current?.kill();
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (isOpen) setShouldRender(true);
+  }, [isOpen]);
 
-    startAnimation.current = gsap.timeline({
-      defaults: {
-        duration: 0.5,
-      },
-    });
+  useGSAP(() => {
+    if (!shouldRender || !isOpen) return;
 
-    if (isOpen && !isAnimating) {
-      startAnimation.current
-        .fromTo(
-          modalRef.current,
-          { y: 50, yPercent: -50, opacity: 0 },
-          { y: 0, opacity: 1, clearProps: 'transform' }
-        )
+    tl.current?.kill();
+
+    tl.current = gsap
+      .timeline()
+      .fromTo(modalRef.current, { y: 50, opacity: 0 }, { y: 0, opacity: 1 })
         .fromTo(backDropRef.current, { opacity: 0 }, { opacity: 1 }, '<0.03');
+  }, [isOpen, shouldRender]);
+
   const handleClose = useCallback(() => {
     if (isClosingRef.current || !isOpen) return;
 
@@ -78,8 +82,10 @@ export default function Modal() {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [handleClose, shouldRender]);
 
+  if (!shouldRender) return null;
+
   return (
-    <div ref={container}>
+    <div className={styles.container}>
       <div
         ref={backDropRef}
         className={styles.backDrop}
