@@ -1,6 +1,6 @@
 import Header from '@/components/layout/header/Header';
 import { Modal, ToastList } from '@/components/ui';
-import LandigPage from '@/pages/LandingPage';
+import LandingPage from '@/pages/LandingPage';
 import { useModalStore } from '@/store/modalStore';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <Header />
-      <LandigPage />
+      <LandingPage />
       {isOpen && <Modal />}
       <ToastList />
     </>
