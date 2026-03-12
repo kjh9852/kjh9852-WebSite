@@ -1,0 +1,119 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skillInfo {
+  @include flex-center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 50px 120px;
+  transform: translateY(500px);
+}
+
+.chart {
+  position: relative;
+  @include flex-center;
+  width: 220px;
+  height: 220px;
+  font-size: 22px;
+  border-radius: 50%;
+  opacity: 1;
+
+  .circle {
+    display: flex;
+    overflow: hidden;
+    mask-image: radial-gradient(white, black);
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .blue {
+    background: #1a4cb3;
+  }
+  .orange {
+    background: #fea743;
+  }
+
+  .purple {
+    background: #0169b4;
+  }
+
+  .yellow {
+    background: #feda10;
+  }
+
+  .pink {
+    background: #fe2dc0;
+  }
+}
+
+.water {
+  position: relative;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: translate(0px, 200px);
+
+  .skillText {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  svg {
+    position: absolute;
+    display: flex;
+    width: 700px;
+    height: 44px;
+    top: -41px;
+    animation: wave 1s linear infinite;
+
+    &:nth-child(2) {
+      animation: wave2 1s linear infinite;
+      top: -41px;
+    }
+    path {
+      position: absolute;
+      top: 0;
+      width: 220px;
+      height: 220px;
+      z-index: 1;
+    }
+  }
+}
+
+.bgBubble {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  background: url('@/assets/images/bubble_chart.png') no-repeat;
+  background-size: cover;
+}
+
+@keyframes wave {
+  from {
+    transform: translateX(-202px);
+  }
+
+  to {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes wave2 {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-206px);
+  }
+}
