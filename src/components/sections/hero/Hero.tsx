@@ -3,19 +3,18 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
 
-import { animation } from '@/animations/heroAnimation';
+import { heroAnimation } from '@/animations/heroAnimation';
 import { animationTrigger } from '@/animations/heroAnimationTrigger';
 import BackLight01 from '@/assets/images/back_light01.png';
 import BackLight02 from '@/assets/images/back_light02.png';
 import Moon from '@/assets/images/moon.png';
+import MountainBackground from '@/assets/images/mountain_back01.png';
+import MountainBack from '@/assets/images/mountain_back02.svg';
+import MountainFront from '@/assets/images/mountain_front01.png';
 import River from '@/assets/images/river.svg';
 import HeroSvg from '@/components/sections/hero/HeroSvg';
 
 import styles from './Hero.module.scss';
-
-import MountainBackground from '@/assets/images/mountain_back01.png';
-import MountainBack from '@/assets/images/mountain_back02.svg';
-import MountainFront from '@/assets/images/mountain_front01.png';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -32,7 +31,6 @@ export default function Hero() {
         scrub: 5,
         immediateRender: false,
         invalidateOnRefresh: true,
-        markers: true,
       },
       defaults: {
         ease: 'power1.in',
@@ -48,11 +46,11 @@ export default function Hero() {
     });
 
     if (window.scrollY === 0) {
-      animation.forEach(({ target, from, to, offset }) => {
+      heroAnimation.forEach(({ target, from, to, offset }) => {
         startAnimation.fromTo(target, from, to, offset || 0);
       });
     } else {
-      animation.forEach(({ target, to }) => {
+      heroAnimation.forEach(({ target, to }) => {
         gsap.set(target, to);
       });
     }

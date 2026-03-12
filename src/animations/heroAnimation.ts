@@ -1,4 +1,4 @@
-export const animation = [
+export const heroAnimation = [
   {
     target: '.bgTop',
     from: { y: -2000, scale: 1 },
@@ -49,53 +49,5 @@ export const animation = [
     target: '.light02',
     from: { opacity: 0 },
     to: { opacity: 0.05, ease: 'expo.out', duration: 4, delay: 1.7 },
-  },
-];
-
-export const slideAnimation = [
-  {
-    id: '.orange',
-    props: {
-      y: 45,
-      yoyo: true,
-      delay: 0,
-      repeat: -1,
-    },
-  },
-  {
-    id: '.blue',
-    props: {
-      y: 45,
-      yoyo: true,
-      delay: 0.3,
-      repeat: -1,
-    },
-  },
-  {
-    id: '.purple',
-    props: {
-      y: 45,
-      yoyo: true,
-      delay: 0.5,
-      repeat: -1,
-    },
-  },
-  {
-    id: '.yellow',
-    props: {
-      y: 45,
-      yoyo: true,
-      delay: 0.7,
-      repeat: -1,
-    },
-  },
-  {
-    id: '.pink',
-    props: {
-      y: 45,
-      yoyo: true,
-      delay: 0.9,
-      repeat: -1,
-    },
   },
 ];
