@@ -3,7 +3,7 @@ export const nav = [
     name: 'about',
   },
   {
-    name: 'skil',
+    name: 'skills',
   },
   {
     name: 'project',
