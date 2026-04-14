@@ -1,0 +1,36 @@
+.addProjectButton {
+  position: fixed;
+  bottom: 35px;
+  right: 35px;
+  z-index: 52;
+}
+
+.addProjectButtonTrigger {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.addProjectButtonIcon {
+  position: absolute;
+  top: 23px;
+  left: 13px;
+  width: 25px;
+  height: 5px;
+  border-radius: 16px;
+  background: #4440ff;
+
+  &::after {
+    content: '';
+    position: absolute;
+    transform: rotate(90deg);
+    top: 0px;
+    left: 0px;
+    width: 25px;
+    height: 5px;
+    border-radius: 16px;
+    background: #4440ff;
+  }
+}
