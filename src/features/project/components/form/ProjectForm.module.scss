@@ -1,0 +1,63 @@
+.projectFormContainer {
+  margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 12px;
+  width: 100%;
+}
+
+.projectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.titleInput {
+  flex: 1;
+}
+
+.projectTitle {
+  background: #fff;
+  padding-left: 30px;
+}
+
+.categoryDropdown {
+  display: inline-block;
+  width: 100px;
+}
+
+.selectMenu {
+  display: inline-block;
+  min-width: 100px;
+  padding: 12px 6px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid #d2d2d2;
+}
+
+.buttonContainer {
+  position: sticky;
+  bottom: 0;
+  padding: 20px 0;
+  margin-top: auto;
+  border-top: 1px solid #eee;
+  background: #fff;
+
+  .buttonInner {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 16px;
+    width: 100%;
+    max-width: 648px;
+    margin: 0 auto;
+  }
+}
