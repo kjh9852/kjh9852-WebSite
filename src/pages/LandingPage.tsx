@@ -1,15 +1,24 @@
 import About from '@/components/sections/about/About';
 import Hero from '@/components/sections/hero/Hero';
+import Project from '@/components/sections/project/Project';
 import Skills from '@/components/sections/skills/Skills';
+import { AdminGuard } from '@/features/auth';
+import AddProjectButton from '@/features/project/components/add/AddProjectButton';
 
 import styles from './LandingPage.module.scss';
 
 export default function LandingPage() {
   return (
-    <main className={styles.background}>
-      <Hero />
-      <About />
-      <Skills />
-    </main>
+    <>
+      <main className={styles.background}>
+        <Hero />
+        <About />
+        <Skills />
+        <Project />
+      </main>
+      <AdminGuard>
+        <AddProjectButton />
+      </AdminGuard>
+    </>
   );
 }
