@@ -1,0 +1,25 @@
+.headingImg {
+  width: 20px;
+  height: 20px;
+}
+
+.iconFlex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 6px;
+  gap: 4px;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 4px;
+  font-size: 0;
+}
+
+.arrowImg {
+  width: 16px;
+  height: 8px;
+}
