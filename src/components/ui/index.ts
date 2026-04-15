@@ -1,7 +1,9 @@
 export { default as Button } from './button/Button';
-export { default as DropDown } from './dropdown/DropDown';
+export { default as Dropdown } from './dropdown/Dropdown';
 export { default as Input } from './input/Input';
 export { default as Modal } from './modal/Modal';
 export { default as ToastList } from './toast/ToastList';
+export { default as Loading } from './loading/Loading';
+export { default as DotMenu } from './dotmenu/DotMenu';
 
 export * from './icons';
