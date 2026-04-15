@@ -69,7 +69,11 @@ export const signIn = async (email: string, password: string) => {
 export const signOut = async () => {
   try {
     await firebaseSignOut(authService);
-  } catch (error) {
-    console.log(error);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      const message = FIREBASE_AUTH_MESSAGES[error.code];
+      throw new Error(message);
+    }
+    throw new Error('서버와의 통신 중 오류가 발생했습니다.');
   }
 };
