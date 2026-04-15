@@ -1,0 +1,18 @@
+.viewerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0px;
+  padding: 16px 0;
+  text-align: center;
+  border-bottom: 1px solid #ededed;
+  background: #fff;
+  z-index: 2;
+}
+
+.title {
+  flex: 1 1 0;
+  font-size: 24px;
+  font-weight: 500;
+}

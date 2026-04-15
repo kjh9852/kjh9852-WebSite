@@ -1,0 +1,384 @@
+.editor-mode {
+  min-height: 100vh;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .error-message {
+    margin-top: 6px;
+    padding-left: 8px;
+    color: red;
+  }
+}
+
+.editor-mode .ProseMirror {
+  flex: 1;
+  padding: 30px 30px 30vh;
+
+  &:focus {
+    outline: none;
+  }
+
+  [data-resize-handle] {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    z-index: 10;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Corner handles */
+    &[data-resize-handle='top-left'],
+    &[data-resize-handle='top-right'],
+    &[data-resize-handle='bottom-left'],
+    &[data-resize-handle='bottom-right'] {
+      width: 8px;
+      height: 8px;
+    }
+
+    &[data-resize-handle='top-left'] {
+      top: -4px;
+      left: -4px;
+      cursor: nwse-resize;
+    }
+
+    &[data-resize-handle='top-right'] {
+      top: -4px;
+      right: -4px;
+      cursor: nesw-resize;
+    }
+
+    &[data-resize-handle='bottom-left'] {
+      bottom: -4px;
+      left: -4px;
+      cursor: nesw-resize;
+    }
+
+    &[data-resize-handle='bottom-right'] {
+      bottom: -4px;
+      right: -4px;
+      cursor: nwse-resize;
+    }
+
+    /* Edge handles */
+    &[data-resize-handle='top'],
+    &[data-resize-handle='bottom'] {
+      height: 6px;
+      left: 8px;
+      right: 8px;
+    }
+
+    &[data-resize-handle='top'] {
+      top: -3px;
+      cursor: ns-resize;
+    }
+
+    &[data-resize-handle='bottom'] {
+      bottom: -3px;
+      cursor: ns-resize;
+    }
+
+    &[data-resize-handle='left'],
+    &[data-resize-handle='right'] {
+      width: 6px;
+      top: 8px;
+      bottom: 8px;
+    }
+
+    &[data-resize-handle='left'] {
+      left: -3px;
+      cursor: ew-resize;
+    }
+
+    &[data-resize-handle='right'] {
+      right: -3px;
+      cursor: ew-resize;
+    }
+  }
+
+  [data-resize-state='true'] [data-resize-wrapper] {
+    outline: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 0.125rem;
+  }
+
+  ul,
+  ol {
+    padding-left: 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    list-style: inherit;
+  }
+}
+
+/* 뷰어 모드 */
+.viewer-mode {
+  height: 100vh;
+
+  .sheet {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+}
+
+.view-content .ProseMirror {
+  flex: 1;
+  padding: 16px 30px 30vh;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 1240px;
+  background-color: transparent;
+  cursor: default;
+
+  ul,
+  ol {
+    padding-left: 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li {
+    list-style: inherit;
+  }
+}
+
+/* Basic editor styles */
+.tiptap {
+  min-height: 450px;
+  padding: 12px 16px;
+  // border-radius: 8px;
+  font-size: 16px;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  &.ProseMirror p:not(:first-child):not(td p):not(th p) {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  [data-resize-container] {
+    /* 핵심: block이나 flex를 inline-flex로 바꿉니다 */
+    display: inline-flex !important;
+    vertical-align: middle;
+    margin: 0 5px;
+    position: relative;
+  }
+
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    margin-top: 70px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  h2 {
+    margin-top: 50px;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  h3 {
+    margin-top: 36px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin-top: 23px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Code and preformatted text styles */
+  code {
+    background-color: var(--purple-light);
+    border-radius: 4px;
+    color: var(--black);
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  pre {
+    background: var(--black);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: 'JetBrainsMono', monospace;
+    margin: 16px 0;
+    padding: 8px 12px;
+
+    code {
+      background: none;
+      color: inherit;
+      font-size: 14px;
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 2rem 0;
+  }
+}
+
+/* Placeholder (on every new line)  */
+
+p.is-editor-empty:first-child::before {
+  color: var(--gray-4);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Bubble menu */
+.bubble-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--gray-1);
+  padding: 6px;
+
+  .toolbar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 6px;
+    transition: 0.3s ease;
+  }
+
+  button {
+    background-color: unset;
+
+    &:hover {
+      background-color: var(--gray-3);
+    }
+
+    &.is-active {
+      background-color: var(--blue);
+
+      &:hover {
+        background-color: var(--blue-contrast);
+      }
+    }
+  }
+}
+
+.image-link-wrapper {
+  vertical-align: middle;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Floating menu */
+.floating-menu {
+  display: flex;
+  background-color: var(--gray-3);
+  padding: 0.1rem;
+  border-radius: 0.5rem;
+
+  button {
+    background-color: unset;
+    padding: 0.275rem 0.425rem;
+    border-radius: 0.3rem;
+
+    &:hover {
+      background-color: var(--gray-3);
+    }
+
+    &.is-active {
+      background-color: var(--white);
+      color: var(--purple);
+
+      &:hover {
+        color: var(--purple-contrast);
+      }
+    }
+  }
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 2;
+}
+
+.editor-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 6px;
+  max-width: 648px;
+  min-height: 93vh;
+}
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 648px;
+  min-height: 93vh;
+  height: 100%;
+}
