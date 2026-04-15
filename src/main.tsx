@@ -1,6 +1,4 @@
-import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
-import { QueryClient } from '@tanstack/react-query';
-import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
 
 import './index.scss';
@@ -15,26 +13,8 @@ const queryClient = new QueryClient({
   },
 });
 
-const asyncPersister = createAsyncStoragePersister({
-  storage: localStorage,
-});
-
 createRoot(document.getElementById('root')!).render(
-  <PersistQueryClientProvider
-    client={queryClient}
-    persistOptions={{
-      persister: asyncPersister,
-      dehydrateOptions: {
-        shouldDehydrateQuery: (query) => {
-          return (
-            query.queryKey[0] === 'currentUser' &&
-            query.state.status === 'success' &&
-            query.state.data !== null
-          );
-        },
-      },
-    }}
-  >
+  <QueryClientProvider client={queryClient}>
     <App />
-  </PersistQueryClientProvider>
+  </QueryClientProvider>
 );
