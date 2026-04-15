@@ -1,13 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import type { User } from 'firebase/auth';
 
-import { getUser } from '@/features/auth/api/auth';
+export type AuthUser = {
+  uid: string;
+  email: string | null;
+  displayName: string | null;
+  photoURL: string | null;
+  isAdmin: boolean;
+};
 
 export function useAuth() {
-  return useQuery<User | null>({
+  return useQuery<AuthUser | null>({
     queryKey: ['currentUser'],
-    queryFn: getUser,
-    staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 60,
+    queryFn: () => null,
+    initialData: null,
+    staleTime: Infinity,
   });
 }
