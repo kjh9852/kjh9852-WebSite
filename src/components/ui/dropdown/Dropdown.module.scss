@@ -1,17 +1,19 @@
-.container {
+.dropdownContainer {
   position: relative;
   top: 0;
   right: 0;
   z-index: 1;
 }
 
-.listContainer {
+.overlay {
   position: absolute;
   top: 30px;
   right: 0;
+  width: max-content;
 }
 
-.menuContainer {
+.menu {
+  width: auto;
   min-width: 100px;
   font-size: 14px;
   text-align: center;
@@ -21,12 +23,13 @@
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-.menu {
+.item {
   padding: 12px 6px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-.menu:hover {
-  background: #eee;
+
+  &:hover {
+    background: #eee;
+  }
 }
