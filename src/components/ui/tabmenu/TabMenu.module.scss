@@ -1,0 +1,53 @@
+.tabMenu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+
+  @media (max-witdh: 610px) {
+    gap: 16px;
+  }
+}
+
+.tabItem {
+  .tabButton {
+    min-width: 120px;
+    padding: 8px 24px;
+    background: #e0f7fa;
+    color: #01579b;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #004d40;
+      background: #b2ebf2;
+    }
+
+    @media (max-width: 610px) {
+      min-width: 80px;
+      padding: 8px 12px;
+    }
+  }
+
+  .menuText {
+    font-size: 16px;
+
+    @media (max-width: 610px) {
+      font-size: 14px;
+    }
+  }
+
+  &.active {
+    .tabButton {
+      backdrop-filter: blur(10px);
+      background: #4dd0e1;
+    }
+
+    .menuText {
+      color: #003b57;
+      font-weight: 600;
+    }
+  }
+}
