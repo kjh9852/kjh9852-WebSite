@@ -1,5 +1,6 @@
 export { default as SignIn } from './components/SignIn';
 export { default as SignUp } from './components/SignUp';
+export { default as AdminGuard } from './components/AdminGuard';
 
 export { useAuth } from './hooks/useAuth';
 export { useSignIn } from './hooks/useSignIn';
