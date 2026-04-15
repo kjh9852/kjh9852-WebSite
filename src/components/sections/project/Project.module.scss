@@ -1,0 +1,15 @@
+.projectListContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-content: start;
+  gap: 36px 18px;
+  padding-top: 60px;
+  min-height: 500px;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
