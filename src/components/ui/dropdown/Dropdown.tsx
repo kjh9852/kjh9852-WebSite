@@ -4,15 +4,15 @@ import type { SetStateAction } from 'react';
 
 import useClickOutside from '@/hooks/useClickOutside';
 
-import styles from './DropDown.module.scss';
+import styles from './Dropdown.module.scss';
 
-interface List {
-  btnLabel: string;
-  btnType?: string;
+interface List<T> {
+  label: React.ReactNode;
+  value: T;
   onClick?: () => void;
 }
 
-export default function DropDown({
+export default function Dropdown<T>({
   children,
   dropdownList,
   isOpen,
@@ -21,23 +21,24 @@ export default function DropDown({
   onSelect,
 }: {
   children: React.ReactNode;
-  dropdownList?: List[];
+  dropdownList?: readonly List<T>[];
   isOpen: boolean;
   setOpen: React.Dispatch<SetStateAction<boolean>>;
   positionStyle?: React.CSSProperties;
-  onSelect?: (value: string) => void;
+  onSelect?: (value?: T, label?: React.ReactNode) => void;
 }) {
   const container = useRef<HTMLDivElement | null>(null);
-  const [listRender, setListRender] = useState<boolean>(isOpen);
+  const [listRender, setListRender] = useState(isOpen);
   const dropdownRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
   gsap.config({
     nullTargetWarn: false,
   });
 
-  if (isOpen && !listRender) {
-    setListRender(true);
-  }
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (isOpen) setListRender(true);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!listRender) return;
@@ -50,7 +51,8 @@ export default function DropDown({
     });
 
     const element = container.current;
-    const dropdownList = element?.querySelector('.dropDown') as HTMLElement;
+    const dropdownList = element?.querySelector('.dropDown');
+    if (!dropdownList) return;
 
     if (isOpen) {
       dropdownTimeline.fromTo(
@@ -77,25 +79,21 @@ export default function DropDown({
   }, [isOpen, listRender]);
 
   return (
-    <div className={styles.container} ref={dropdownRef}>
+    <div className={styles.dropdownContainer} ref={dropdownRef}>
       {children}
       {listRender && (
-        <div
-          className={styles.listContainer}
-          style={positionStyle}
-          ref={container}
-        >
-          <ul className={`${styles.menuContainer} dropDown`}>
-            {dropdownList?.map((list) => (
+        <div className={styles.overlay} style={positionStyle} ref={container}>
+          <ul className={`${styles.menu} dropDown`}>
+            {dropdownList?.map((list, idx) => (
               <li
-                key={list.btnLabel}
-                className={styles.menu}
+                key={idx}
+                className={styles.item}
                 onClick={() => {
-                  list.onClick?.();
-                  onSelect?.(list.btnLabel);
+                  setOpen(false);
+                  onSelect?.(list?.value, list?.label);
                 }}
               >
-                {list.btnLabel}
+                {list.label}
               </li>
             ))}
           </ul>
