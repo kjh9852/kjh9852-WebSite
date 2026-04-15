@@ -1,6 +1,6 @@
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import Navigation from '@/components/layout/header/Navigation';
-import { DropDown } from '@/components/ui';
+import { Dropdown } from '@/components/ui';
 import { useAuth, useSignOut } from '@/features/auth';
 import useToggle from '@/hooks/useToggle';
 import { useModalStore } from '@/store/modalStore';
@@ -11,18 +11,18 @@ export default function Header() {
   const { data: user, isPending } = useAuth();
   const { openModal } = useModalStore();
   const { mutate: handleSignOut } = useSignOut();
-  const [modalOpen, toggleModal, setModalOpen] = useToggle(false);
+  const [menuOpen, toggleMenu, setMenuOpen] = useToggle(false);
 
   const USER_DROP_DOWN = [
     {
-      btnLabel: '프로필 설정',
-      onClick: () => openModal('profileSetting'),
+      label: '프로필 설정',
+      value: 'profile',
     },
     {
-      btnLabel: '로그아웃',
-      onClick: () => handleSignOut(),
+      label: '로그아웃',
+      value: 'logout',
     },
-  ];
+  ] as const;
 
   return (
     <header className={styles.header}>
@@ -36,13 +36,17 @@ export default function Header() {
           <Navigation />
         </nav>
         {user && !isPending ? (
-          <div className={styles.userProfile} onClick={toggleModal}>
-            <DropDown
+          <div className={styles.userProfile}>
+            <Dropdown
               dropdownList={USER_DROP_DOWN}
-              isOpen={modalOpen}
-              setOpen={setModalOpen}
+              isOpen={menuOpen}
+              setOpen={setMenuOpen}
+              onSelect={(value) => {
+                if (value === 'profile') openModal('profileSetting');
+                if (value === 'logout') handleSignOut();
+              }}
             >
-              <div className={styles.profile}>
+              <div className={styles.profile} onClick={toggleMenu}>
                 <img
                   className={styles.profileIcon}
                   loading="lazy"
@@ -51,7 +55,7 @@ export default function Header() {
                 />
                 <span className={styles.profileName}>{user?.displayName}</span>
               </div>
-            </DropDown>
+            </Dropdown>
           </div>
         ) : (
           <button
