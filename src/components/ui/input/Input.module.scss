@@ -6,6 +6,7 @@
 
 .inputContainer {
   position: relative;
+  width: 100%;
 }
 
 .input {
@@ -14,13 +15,21 @@
   font-size: 16px;
   border: none;
   background: #f7f7f7;
-  border-radius: 8px;
+  border-radius: 0;
+  outline: none;
 
-  &:focus {
+  &::placeholder {
+    color: var(--gray-4);
+  }
+  &.square {
+    border-radius: 8px;
+  }
+
+  &.focusOutline:focus {
     outline: solid 1px #045cff;
   }
 
-  &.error {
+  &.focusOutline.error {
     outline: solid 1px red;
   }
 }
