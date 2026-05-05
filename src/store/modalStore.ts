@@ -5,6 +5,7 @@ export const MODAL_TYPE = {
   SIGN_UP: 'signUp',
   PROFILE_SETTING: 'profileSetting',
   WITHDRAWAL: 'withdrawal',
+  POST: 'post',
 } as const;
 
 type ModalDataMap = {
@@ -12,6 +13,7 @@ type ModalDataMap = {
   signUp: undefined;
   profileSetting: undefined;
   withdrawal: undefined;
+  post: undefined;
 };
 
 type ModalType = (typeof MODAL_TYPE)[keyof typeof MODAL_TYPE];
