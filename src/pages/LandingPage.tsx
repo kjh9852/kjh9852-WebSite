@@ -1,5 +1,6 @@
 import About from '@/components/sections/about/About';
 import Hero from '@/components/sections/hero/Hero';
+import Post from '@/components/sections/post/Post';
 import Project from '@/components/sections/project/Project';
 import Skills from '@/components/sections/skills/Skills';
 import { AdminGuard } from '@/features/auth';
@@ -15,6 +16,7 @@ export default function LandingPage() {
         <About />
         <Skills />
         <Project />
+        <Post />
       </main>
       <AdminGuard>
         <AddProjectButton />
