@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 32px;
+  padding: 24px 0;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.addPostButton {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 14px;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #7eedda;
+
+  &:disabled {
+    color: #555;
+    background: #ededed;
+    cursor: default;
+  }
+}

@@ -8,7 +8,7 @@ import { useProjectStore } from '@/store/projectStore';
 
 function App() {
   const { isOpen } = useModalStore();
-  const { type, projectId } = useProjectStore();
+  const { type: projectType, projectId } = useProjectStore();
   useAuthObserver();
 
   return (
@@ -17,7 +17,9 @@ function App() {
       <LandingPage />
       <ToastList />
       {isOpen && <Modal />}
-      {type && <ProjectSheet projectId={type === 'add' ? null : projectId} />}
+      {projectType && (
+        <ProjectSheet projectId={projectType === 'add' ? null : projectId} />
+      )}
     </>
   );
 }

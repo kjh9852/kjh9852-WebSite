@@ -1,10 +1,13 @@
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
+import { MODAL_ANIMATION } from '@/animations/modalAnimation';
 import { SignIn, SignUp } from '@/features/auth';
+import { PostSheet } from '@/features/post';
 import { ProfileSetting, Withdrawal } from '@/features/profile';
 import { useModalStore } from '@/store/modalStore';
+import { usePostStore } from '@/store/postStore';
 
 import styles from './Modal.module.scss';
 
@@ -13,10 +16,12 @@ const MODAL_COMPONENT = {
   signUp: SignUp,
   profileSetting: ProfileSetting,
   withdrawal: Withdrawal,
+  post: PostSheet,
 } as const;
 
 export default function Modal() {
   const { isOpen, modalType, closeModal } = useModalStore();
+  const { type } = usePostStore();
   const modalRef = useRef<HTMLDivElement>(null);
   const backDropRef = useRef<HTMLDivElement>(null);
 
@@ -27,10 +32,17 @@ export default function Modal() {
 
   const ModalComponent = modalType ? MODAL_COMPONENT[modalType] : null;
 
+  const isPost = modalType === 'post' && type === 'detail';
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isOpen) setShouldRender(true);
   }, [isOpen]);
+
+  const animationConfig = useMemo(
+    () => (isPost ? MODAL_ANIMATION.post : MODAL_ANIMATION.default),
+    [isPost]
+  );
 
   useGSAP(() => {
     if (!shouldRender || !isOpen) return;
@@ -39,7 +51,11 @@ export default function Modal() {
 
     tl.current = gsap
       .timeline()
-      .fromTo(modalRef.current, { y: 50, opacity: 0 }, { y: 0, opacity: 1 })
+      .fromTo(
+        modalRef.current,
+        { ...animationConfig.from },
+        { ...animationConfig.to, ...animationConfig.default }
+      )
       .fromTo(backDropRef.current, { opacity: 0 }, { opacity: 1 }, '<0.03');
   }, [isOpen, shouldRender]);
 
@@ -58,7 +74,9 @@ export default function Modal() {
           isClosingRef.current = false;
         },
       })
-      .to(modalRef.current, { y: 50, opacity: 0 })
+      .to(modalRef.current, {
+        ...animationConfig.exit,
+      })
       .to(
         backDropRef.current,
         {
@@ -66,7 +84,7 @@ export default function Modal() {
         },
         '<0.03'
       );
-  }, [closeModal, isOpen]);
+  }, [closeModal, isOpen, animationConfig]);
 
   useEffect(() => {
     if (!shouldRender) return;
