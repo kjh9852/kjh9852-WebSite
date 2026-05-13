@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
   addDoc,
@@ -13,6 +14,7 @@ import {
 } from 'firebase/firestore';
 
 import { db } from '@/api/firebase';
+import { FIREBASE_FIRESTORE_MESSAGES } from '@/constants/firebaseMessage';
 
 import { type Post, type InitialPost } from '../types';
 
@@ -21,8 +23,6 @@ export async function uploadPost(data: InitialPost): Promise<void> {
   const user = auth.currentUser;
   await addDoc(collection(db, 'post'), {
     ...data,
-    userName: user?.displayName,
-    userImage: user?.photoURL,
     authorId: user?.uid,
     createDate: new Date().toISOString(),
     createAt: serverTimestamp(),
@@ -35,8 +35,6 @@ export async function getAllPost(): Promise<Post[]> {
   const returnData = response.docs.map((doc) => ({
     id: doc.id,
     content: doc.data().content,
-    userName: doc.data().userName,
-    userImage: doc.data().userImage,
     authorId: doc.data().authorId,
     createDate: doc.data().createDate,
     createAt: doc.data().createAt,
@@ -52,8 +50,12 @@ export async function editPost(
 
   try {
     await updateDoc(postRef, updatePost);
-  } catch (error) {
-    console.log(error);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      const message = FIREBASE_FIRESTORE_MESSAGES[error.code];
+      throw new Error(message);
+    }
+    throw new Error('서버와의 통신 중 오류가 발생했습니다.');
   }
 }
 
@@ -71,8 +73,6 @@ export async function getPost(postId: string): Promise<Post | null> {
     id: response.id,
     authorId: data.authorId,
     content: data.content,
-    userName: data.userName,
-    userImage: data.userImage,
     createDate: data.createDate,
   };
 }
@@ -82,7 +82,11 @@ export async function deletePost(postId: string): Promise<void> {
 
   try {
     await deleteDoc(postRef);
-  } catch (error) {
-    console.log(error);
+  } catch (error: unknown) {
+    if (error instanceof FirebaseError) {
+      const message = FIREBASE_FIRESTORE_MESSAGES[error.code];
+      throw new Error(message);
+    }
+    throw new Error('서버와의 통신 중 오류가 발생했습니다.');
   }
 }
