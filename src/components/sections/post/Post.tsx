@@ -7,13 +7,15 @@ import Wrapper from '@/components/layout/wrapper/Wrapper';
 import PostList from '@/components/sections/post/postlist/PostList';
 import { Button } from '@/components/ui';
 import { useAuth } from '@/features/auth';
-import { useGetPosts } from '@/features/post/hooks/useGetPosts';
+import { useGetPosts, usePostSubscription } from '@/features/post';
 import { useModalStore } from '@/store/modalStore';
 import { usePostStore } from '@/store/postStore';
 
 import styles from './Post.module.scss';
 
 export default function Post() {
+  usePostSubscription();
+
   const { data: postList } = useGetPosts();
   const { data: user } = useAuth();
   const { openPost } = usePostStore();
@@ -39,14 +41,19 @@ export default function Post() {
   return (
     <Section sectionId="post" className="overflow-x-scroll">
       <Wrapper full>
-        <div className={styles.buttonContainer}>
-          <Button size="small" onButtonClick={() => handleOpenPost()}>
-            게시글 등록
-          </Button>
-          <Button size="small" onButtonClick={() => setMyPost((prev) => !prev)}>
-            {myPost ? '전체 게시글' : '내 게시글 '}
-          </Button>
-        </div>
+        {user && (
+          <div className={styles.buttonContainer}>
+            <Button size="small" onButtonClick={() => handleOpenPost()}>
+              게시글 등록
+            </Button>
+            <Button
+              size="small"
+              onButtonClick={() => setMyPost((prev) => !prev)}
+            >
+              {myPost ? '전체 게시글' : '내 게시글 '}
+            </Button>
+          </div>
+        )}
         <div className={styles.postContainer}>
           <Swiper
             className={styles.customSwiper}
