@@ -9,5 +9,6 @@ export { useGetPosts } from './hooks/useGetPosts';
 export { useUploadPost } from './hooks/useUploadPost';
 export { useEditPost } from './hooks/useEditPost';
 export { useDeletePost } from './hooks/useDeletePost';
+export { usePostSubscription } from './hooks/usePostSubscription';
 
 export * from './schemas/post.schema';
