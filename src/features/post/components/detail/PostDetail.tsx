@@ -1,7 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Dropdown, DotMenu, Loading } from '@/components/ui';
-import { useAuth } from '@/features/auth';
+import { useAuth, useUserMetaData } from '@/features/auth';
 import useToggle from '@/hooks/useToggle';
 import { useModalStore } from '@/store/modalStore';
 import { usePostStore } from '@/store/postStore';
@@ -16,6 +16,7 @@ import styles from './PostDetail.module.scss';
 export default function PostDetail({ post, isPending }: PostDetailProps) {
   const { showToast } = useToastStore();
   const { data: user } = useAuth();
+  const { data: author } = useUserMetaData(post?.authorId || '');
   const { mutate: deletePost } = useDeletePost();
   const { closeModal } = useModalStore();
   const { openPost, closePost } = usePostStore();
@@ -87,10 +88,10 @@ export default function PostDetail({ post, isPending }: PostDetailProps) {
         <div className={styles.userInfo}>
           <img
             className={styles.userImage}
-            src={post?.userImage}
+            src={author?.photoURL}
             alt="이미지"
           />
-          <p className={styles.userName}>{post?.userName}</p>
+          <p className={styles.userName}>{author?.displayName}</p>
           <span className={styles.pipeLine} />
           <p>{convertTime(post.createDate)}</p>
         </div>

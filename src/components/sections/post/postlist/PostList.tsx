@@ -1,28 +1,18 @@
 import { useRef } from 'react';
 
+import defaultProfile from '@/assets/icons/profile_icon.png';
+import { useUserMetaData } from '@/features/auth';
+import { type PostListProps } from '@/features/post/types';
 import convertTime from '@/utils/convertTime';
 
 import styles from './PostList.module.scss';
 
-interface PostList {
-  id: string;
-  content: string;
-  authorId: string;
-  userName?: string | null;
-  userImage?: string | undefined;
-  createDate: Date;
-}
-
-interface PostListProps {
-  postList: PostList;
-  onPostDetailOpen: () => void;
-}
-
-export default function NotePaper({
+export default function PostList({
   postList,
   onPostDetailOpen,
 }: PostListProps) {
   const contentRef = useRef(null);
+  const { data: author } = useUserMetaData(postList.authorId);
 
   return (
     <div
@@ -33,21 +23,20 @@ export default function NotePaper({
     >
       <div className={styles.notePaperImage}>
         <p className={styles.content}>{postList.content}</p>
-        <div className={styles.userContainer}>
-          {postList?.userImage && (
+        {author && (
+          <div className={styles.userContainer}>
             <img
               className={styles.userImage}
-              src={postList?.userImage}
-              alt="이미지"
+              src={author?.photoURL || defaultProfile}
+              alt="유저 이미지"
             />
-          )}
-          <div className={styles.notePaper} />
-          <div className={styles.userInfo}>
-            <p>{postList.userName}</p>
-            <span className={styles.pipeLine} />
-            <p>{convertTime(postList.createDate)}</p>
+            <div className={styles.userInfo}>
+              <p>{author?.displayName}</p>
+              <span className={styles.pipeLine} />
+              <p>{convertTime(postList.createDate)}</p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
