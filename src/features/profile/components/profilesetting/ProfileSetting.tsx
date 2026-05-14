@@ -2,21 +2,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { uploadImage } from '@/api/uploadImage';
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import { Button, Input } from '@/components/ui';
 import { useAuth } from '@/features/auth';
-import { useUserUpdate } from '@/features/profile/hooks/useUserUpdate';
-import { profileSchema } from '@/features/profile/schemas/profile.schema';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 import { createImageChangeHandler } from '@/utils/image';
+import {
+  profileSchema,
+  type ProfileSettingValues,
+} from '../../schemas/profile.schema';
 
 import styles from './ProfileSetting.module.scss';
-
-type ProfileSettingValues = z.infer<typeof profileSchema>;
 
 export default function ProfileSetting() {
   const queryClient = useQueryClient();

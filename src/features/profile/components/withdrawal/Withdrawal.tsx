@@ -1,17 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button, Input } from '@/components/ui';
-import { useDeleteUser } from '@/features/profile/hooks/useDeleteUser';
-import { deleteUserSchema } from '@/features/profile/schemas/profile.schema';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 
-import styles from './Withdrawal.module.scss';
+import { useDeleteUser } from '../../hooks/useDeleteUser';
+import {
+  deleteUserSchema,
+  type WithdrawFormValues,
+} from '../../schemas/profile.schema';
 
-type WithdrawFormValues = z.infer<typeof deleteUserSchema>;
+import styles from './Withdrawal.module.scss';
 
 export default function Withdrawal() {
   const queryClient = useQueryClient();
