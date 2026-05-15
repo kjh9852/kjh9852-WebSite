@@ -7,14 +7,15 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 
-import { authService } from '@/api/firebase';
+import { authService, db } from '@/api/firebase';
 import { FIREBASE_AUTH_MESSAGES } from '@/constants/authMessage';
 
 export const getUser = () => {
   return new Promise<User | null>((resolve) => {
     const unsubscribe = onAuthStateChanged(authService, (user) => {
-      resolve(user); // Firebase가 유저 존재 여부를 알려줄 때까지 기다림
+      resolve(user);
       unsubscribe();
     });
   });
@@ -38,7 +39,22 @@ export const signUp = async (
       photoURL: photoURL ?? null,
     });
 
+    await user.reload();
+
     const updateUser = authService.currentUser;
+
+    if (!updateUser) {
+      throw new Error('유저 정보를 찾을 수 없습니다.');
+    }
+
+    await setDoc(doc(db, 'users', updateUser.uid), {
+      uid: updateUser?.uid,
+      email: updateUser?.email,
+      displayName,
+      photoURL: updateUser?.photoURL,
+      isAdmin: false,
+      createdAt: serverTimestamp(),
+    });
 
     return updateUser;
   } catch (error: unknown) {

@@ -1,8 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { onAuthStateChanged } from 'firebase/auth';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { useEffect } from 'react';
 
-import { authService } from '@/api/firebase';
+import { db, authService } from '@/api/firebase';
 
 export type AuthUser = {
   uid: string;
@@ -17,25 +18,33 @@ export function useAuthObserver() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(authService, async (user) => {
-      if (!user) {
-        queryClient.setQueryData(['currentUser'], null);
-        return;
-      }
+      if (user) {
+        try {
+          const tokenResult = await user.getIdTokenResult();
 
-      try {
-        const tokenResult = await user.getIdTokenResult(true);
+          await setDoc(doc(db, 'users', user.uid), {
+            uid: user?.uid,
+            email: user?.email,
+            displayName: user?.displayName,
+            photoURL: user?.photoURL,
+            isAdmin: !!tokenResult.claims.admin,
+            createdAt: serverTimestamp(),
+          });
 
-        const authData: AuthUser = {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          isAdmin: !!tokenResult.claims.admin,
-        };
+          const authData: AuthUser = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            isAdmin: !!tokenResult.claims.admin,
+          };
 
-        queryClient.setQueryData(['currentUser'], authData);
-      } catch (error) {
-        console.log(error);
+          queryClient.setQueryData(['currentUser'], authData);
+        } catch (error) {
+          console.log(error);
+          queryClient.setQueryData(['currentUser'], null);
+        }
+      } else {
         queryClient.setQueryData(['currentUser'], null);
       }
     });

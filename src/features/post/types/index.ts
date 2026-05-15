@@ -11,6 +11,11 @@ export interface PostProps {
   post: Post | null | undefined;
 }
 
+export interface PostListProps {
+  postList: Post;
+  onPostDetailOpen: () => void;
+}
+
 export interface PostDetailProps {
   post?: Post | null | undefined;
   isPending?: boolean;

@@ -2,21 +2,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
+import { authService } from '@/api/firebase';
 import { uploadImage } from '@/api/uploadImage';
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import { Button, Input } from '@/components/ui';
 import { useAuth } from '@/features/auth';
-import { useUserUpdate } from '@/features/profile/hooks/useUserUpdate';
-import { profileSchema } from '@/features/profile/schemas/profile.schema';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 import { createImageChangeHandler } from '@/utils/image';
 
-import styles from './ProfileSetting.module.scss';
+import { useUserUpdate } from '../../hooks/useUserUpdate';
+import {
+  profileSchema,
+  type ProfileSettingValues,
+} from '../../schemas/profile.schema';
 
-type ProfileSettingValues = z.infer<typeof profileSchema>;
+import styles from './ProfileSetting.module.scss';
 
 export default function ProfileSetting() {
   const queryClient = useQueryClient();
@@ -38,10 +40,10 @@ export default function ProfileSetting() {
     if (user) {
       form.reset({ displayName: user.displayName ?? '' });
     }
-  }, [user, form.reset]);
+  }, [user, form]);
 
   const handleUpdateUserProfile = async (data: ProfileSettingValues) => {
-    let uploadImageUrl;
+    let uploadImageUrl = user?.photoURL;
 
     if (imageFile) {
       try {
@@ -66,13 +68,20 @@ export default function ProfileSetting() {
 
     profileUpdate(updatePayload, {
       onSuccess: async () => {
-        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+        const updateUser = authService.currentUser;
+
+        if (updateUser) {
+          queryClient.setQueryData(['currentUser'], { ...updateUser });
+          queryClient.invalidateQueries({
+            queryKey: ['users', updateUser.uid],
+          });
+        }
+
         showToast({ type: 'success', message: '프로필이 변경되었습니다.' });
         closeModal();
       },
       onError: (error: Error) => {
-        const message = error.message ?? '알 수 없는 오류가 발생했습니다.';
-        showToast({ type: 'warning', message });
+        showToast({ type: 'warning', message: error.message });
       },
     });
   };

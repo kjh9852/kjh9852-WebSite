@@ -70,8 +70,16 @@ export default function SignUp() {
     };
 
     signUp(updatePayload, {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      onSuccess: async (newUser) => {
+        if (newUser) {
+          await queryClient.setQueryData(['currentUser'], {
+            uid: newUser.uid,
+            email: newUser.email,
+            displayName: newUser.displayName,
+            photoURL: newUser.photoURL,
+            isAdmin: false,
+          });
+        }
         showToast({ type: 'success', message: '회원가입 되었습니다.' });
         closeModal();
       },

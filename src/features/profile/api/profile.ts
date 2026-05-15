@@ -5,8 +5,9 @@ import {
   reauthenticateWithCredential,
   deleteUser as firebaseDeleteUser,
 } from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore';
 
-import { authService } from '@/api/firebase';
+import { db, authService } from '@/api/firebase';
 import { FIREBASE_AUTH_MESSAGES } from '@/constants/authMessage';
 
 export const userProfileUpdate = async (
@@ -14,18 +15,31 @@ export const userProfileUpdate = async (
   photoURL?: string
 ) => {
   try {
-    if (authService.currentUser !== null) {
-      await updateProfile(authService.currentUser, {
+    const user = authService.currentUser;
+    if (user !== null) {
+      await updateProfile(user, {
         displayName: displayName,
         photoURL: photoURL ?? null,
       });
-      await authService.currentUser.reload();
-      return authService.currentUser;
+
+      await setDoc(
+        doc(db, 'users', user.uid),
+        {
+          displayName,
+          photoURL: photoURL ?? null,
+        },
+        { merge: true }
+      );
+
+      await user.reload();
+      return user;
     }
   } catch (error: unknown) {
-    if (error) {
-      throw new Error('유저 변경 에러.');
+    if (error instanceof FirebaseError) {
+      const message = FIREBASE_AUTH_MESSAGES[error.code];
+      throw new Error(message);
     }
+    throw new Error('알 수 없는 오류가 발생했습니다.');
   }
 };
 

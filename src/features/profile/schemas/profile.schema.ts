@@ -17,3 +17,7 @@ export const deleteUserSchema = z
     path: ['passwordConfirm'],
     message: '비밀번호가 일치하지 않습니다.',
   });
+
+export type ProfileSettingValues = z.infer<typeof profileSchema>;
+
+export type WithdrawFormValues = z.infer<typeof deleteUserSchema>;
