@@ -1,3 +1,4 @@
+import Ocean from '@/components/layout/ocean/Ocean';
 import About from '@/components/sections/about/About';
 import Hero from '@/components/sections/hero/Hero';
 import Post from '@/components/sections/post/Post';
@@ -18,6 +19,7 @@ export default function LandingPage() {
         <Project />
         <Post />
       </main>
+      <Ocean />
       <AdminGuard>
         <AddProjectButton />
       </AdminGuard>
