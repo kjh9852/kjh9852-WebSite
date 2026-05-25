@@ -7,5 +7,6 @@ export { useSignIn } from './hooks/useSignIn';
 export { useSignOut } from './hooks/useSignOut';
 export { useSignUp } from './hooks/useSignUp';
 export { useUserMetaData } from './hooks/userUserMetaData';
+export { useAuthObserver } from './hooks/useAuthObserver';
 
 export * from './schemas/auth.schema';
