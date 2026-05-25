@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import Navigation from '@/components/layout/header/Navigation';
 import { Dropdown } from '@/components/ui';
@@ -9,9 +11,16 @@ import styles from './Header.module.scss';
 
 export default function Header() {
   const { data: user, isPending } = useAuth();
-  const { openModal } = useModalStore();
+  const openModal = useModalStore((state) => state.openModal);
   const { mutate: handleSignOut } = useSignOut();
   const [menuOpen, toggleMenu, setMenuOpen] = useToggle(false);
+
+  const [loadedImageUrl, setLoadedImageUrl] = useState<string | null>(null);
+
+  const displayProfileImage =
+    user?.photoURL && loadedImageUrl === user.photoURL
+      ? user.photoURL
+      : defaultProfile;
 
   const USER_DROP_DOWN = [
     {
@@ -50,9 +59,17 @@ export default function Header() {
                 <img
                   className={styles.profileIcon}
                   loading="lazy"
-                  src={user?.photoURL ?? defaultProfile}
+                  src={displayProfileImage}
                   alt="프로필 이미지"
                 />
+                {user?.photoURL && loadedImageUrl !== user?.photoURL && (
+                  <img
+                    src={user.photoURL}
+                    alt="hidden preloader"
+                    style={{ display: 'none' }}
+                    onLoad={() => setLoadedImageUrl(user.photoURL)}
+                  />
+                )}
                 <span className={styles.profileName}>{user?.displayName}</span>
               </div>
             </Dropdown>
