@@ -1,17 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button, Input } from '@/components/ui';
-import { useSignIn } from '@/features/auth/hooks/useSignIn';
-import { signInSchema } from '@/features/auth/schemas/auth.schema';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 
-import styles from './AuthForm.module.scss';
+import { useSignIn } from '../hooks/useSignIn';
+import { signInSchema, type SignInFormValues } from '../schemas/auth.schema';
 
-type SignInFormValues = z.infer<typeof signInSchema>;
+import styles from './AuthForm.module.scss';
 
 export default function SignIn() {
   const form = useForm<SignInFormValues>({

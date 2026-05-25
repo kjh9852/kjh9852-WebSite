@@ -12,6 +12,8 @@ import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { authService, db } from '@/api/firebase';
 import { FIREBASE_AUTH_MESSAGES } from '@/constants/authMessage';
 
+import type { SignUpType, SignInType } from '../types';
+
 export const getUser = () => {
   return new Promise<User | null>((resolve) => {
     const unsubscribe = onAuthStateChanged(authService, (user) => {
@@ -21,12 +23,12 @@ export const getUser = () => {
   });
 };
 
-export const signUp = async (
-  email: string,
-  password: string,
-  displayName: string,
-  photoURL?: string
-) => {
+export const signUp = async ({
+  email,
+  password,
+  displayName,
+  photoURL,
+}: SignUpType): Promise<User> => {
   try {
     const { user } = await createUserWithEmailAndPassword(
       authService,
@@ -65,7 +67,10 @@ export const signUp = async (
   }
 };
 
-export const signIn = async (email: string, password: string) => {
+export const signIn = async ({
+  email,
+  password,
+}: SignInType): Promise<User> => {
   try {
     const result = await signInWithEmailAndPassword(
       authService,
@@ -82,7 +87,7 @@ export const signIn = async (email: string, password: string) => {
   }
 };
 
-export const signOut = async () => {
+export const signOut = async (): Promise<void> => {
   try {
     await firebaseSignOut(authService);
   } catch (error: unknown) {

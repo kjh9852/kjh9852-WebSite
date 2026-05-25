@@ -2,20 +2,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { uploadImage } from '@/api/uploadImage';
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import { Button, Input } from '@/components/ui';
-import { useSignUp } from '@/features/auth/hooks/useSignUp';
-import { signUpSchema } from '@/features/auth/schemas/auth.schema';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 import { createImageChangeHandler } from '@/utils/image';
 
-import styles from './AuthForm.module.scss';
+import { useSignUp } from '../hooks/useSignUp';
+import { signUpSchema, type SignUpFormValues } from '../schemas/auth.schema';
 
-type SignUpFormValues = z.infer<typeof signUpSchema>;
+import styles from './AuthForm.module.scss';
 
 export default function SignUp() {
   const queryClient = useQueryClient();

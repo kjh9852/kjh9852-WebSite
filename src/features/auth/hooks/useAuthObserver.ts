@@ -4,14 +4,7 @@ import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { useEffect } from 'react';
 
 import { db, authService } from '@/api/firebase';
-
-export type AuthUser = {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
-  isAdmin: boolean;
-};
+import type { AuthUser } from '../types';
 
 export function useAuthObserver() {
   const queryClient = useQueryClient();

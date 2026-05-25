@@ -1,12 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-export type AuthUser = {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
-  isAdmin: boolean;
-};
+import type { AuthUser } from '../types';
 
 export function useAuth() {
   return useQuery<AuthUser | null>({
