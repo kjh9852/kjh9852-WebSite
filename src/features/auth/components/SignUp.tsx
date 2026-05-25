@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -16,7 +15,6 @@ import { signUpSchema, type SignUpFormValues } from '../schemas/auth.schema';
 import styles from './AuthForm.module.scss';
 
 export default function SignUp() {
-  const queryClient = useQueryClient();
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -68,21 +66,12 @@ export default function SignUp() {
     };
 
     signUp(updatePayload, {
-      onSuccess: async (newUser) => {
-        if (newUser) {
-          await queryClient.setQueryData(['currentUser'], {
-            uid: newUser.uid,
-            email: newUser.email,
-            displayName: newUser.displayName,
-            photoURL: newUser.photoURL,
-            isAdmin: false,
-          });
-        }
+      onSuccess: () => {
         showToast({ type: 'success', message: '회원가입 되었습니다.' });
         closeModal();
       },
       onError: (error: Error) => {
-        const message = error.message ?? '알 수 없는 오류가 발생했습니다.';
+        const message = error.message || '알 수 없는 오류가 발생했습니다.';
         showToast({ type: 'warning', message });
       },
     });
