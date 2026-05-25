@@ -31,13 +31,15 @@ export function useAuthObserver() {
             photoURL: user.photoURL,
             isAdmin: !!tokenResult.claims.admin,
           };
+          localStorage.setItem('authUser', JSON.stringify(authData));
 
           queryClient.setQueryData(['currentUser'], authData);
         } catch (error) {
-          console.log(error);
+          localStorage.removeItem('authUser');
           queryClient.setQueryData(['currentUser'], null);
         }
       } else {
+        localStorage.removeItem('authUser');
         queryClient.setQueryData(['currentUser'], null);
       }
     });
