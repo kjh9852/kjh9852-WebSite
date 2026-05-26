@@ -1,7 +1,7 @@
 import Header from '@/components/layout/header/Header';
 import { Modal, ToastList } from '@/components/ui';
-import { useAuthObserver } from '@/features/auth/hooks/useAuthObserver';
-import ProjectSheet from '@/features/project/components/sheet/ProjectSheet';
+import { useAuthObserver } from '@/features/auth';
+import { ProjectSheet } from '@/features/project';
 import LandingPage from '@/pages/LandingPage';
 import { useModalStore } from '@/store/modalStore';
 import { useProjectStore } from '@/store/projectStore';

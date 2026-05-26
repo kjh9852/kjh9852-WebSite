@@ -1,17 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button, Input } from '@/components/ui';
-import { useSignIn } from '@/features/auth/hooks/useSignIn';
-import { signInSchema } from '@/features/auth/schemas/auth.schema';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 
-import styles from './AuthForm.module.scss';
+import { useSignIn } from '../hooks/useSignIn';
+import { signInSchema, type SignInFormValues } from '../schemas/auth.schema';
 
-type SignInFormValues = z.infer<typeof signInSchema>;
+import styles from './AuthForm.module.scss';
 
 export default function SignIn() {
   const form = useForm<SignInFormValues>({
@@ -22,20 +19,18 @@ export default function SignIn() {
     },
     mode: 'onChange',
   });
-  const queryClient = useQueryClient();
   const { mutate: login } = useSignIn();
   const { openModal, closeModal } = useModalStore();
   const { showToast } = useToastStore();
 
   const handleLogin = (data: SignInFormValues) => {
     login(data, {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
+      onSuccess: () => {
         showToast({ type: 'success', message: '로그인 되었습니다.' });
         closeModal();
       },
       onError: (error: Error) => {
-        const message = error.message ?? '알 수 없는 오류가 발생했습니다.';
+        const message = error.message || '알 수 없는 오류가 발생했습니다.';
         showToast({ type: 'warning', message });
       },
     });

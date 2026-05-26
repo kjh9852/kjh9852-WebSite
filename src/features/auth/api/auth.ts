@@ -12,6 +12,16 @@ import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { authService, db } from '@/api/firebase';
 import { FIREBASE_AUTH_MESSAGES } from '@/constants/authMessage';
 
+import type { SignUpType, SignInType } from '../types';
+
+const handleAuthError = (error: unknown, defaultMessage: string) => {
+  if (error instanceof FirebaseError) {
+    const message = FIREBASE_AUTH_MESSAGES[error.code];
+    return new Error(message);
+  }
+  return new Error(defaultMessage);
+};
+
 export const getUser = () => {
   return new Promise<User | null>((resolve) => {
     const unsubscribe = onAuthStateChanged(authService, (user) => {
@@ -21,12 +31,12 @@ export const getUser = () => {
   });
 };
 
-export const signUp = async (
-  email: string,
-  password: string,
-  displayName: string,
-  photoURL?: string
-) => {
+export const signUp = async ({
+  email,
+  password,
+  displayName,
+  photoURL,
+}: SignUpType): Promise<User> => {
   try {
     const { user } = await createUserWithEmailAndPassword(
       authService,
@@ -43,29 +53,27 @@ export const signUp = async (
 
     const updateUser = authService.currentUser;
 
-    if (!updateUser) {
-      throw new Error('유저 정보를 찾을 수 없습니다.');
-    }
+    if (!updateUser) throw new Error('유저 정보를 찾을 수 없습니다.');
 
     await setDoc(doc(db, 'users', updateUser.uid), {
-      uid: updateUser?.uid,
-      email: updateUser?.email,
+      uid: updateUser.uid,
+      email: updateUser.email,
       displayName,
-      photoURL: updateUser?.photoURL,
+      photoURL: updateUser.photoURL,
       isAdmin: false,
       createdAt: serverTimestamp(),
     });
 
     return updateUser;
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_AUTH_MESSAGES[error.code];
-      throw new Error(message);
-    }
+    throw handleAuthError(error, '회원가입 처리 중 오류가 발생했습니다.');
   }
 };
 
-export const signIn = async (email: string, password: string) => {
+export const signIn = async ({
+  email,
+  password,
+}: SignInType): Promise<User> => {
   try {
     const result = await signInWithEmailAndPassword(
       authService,
@@ -74,22 +82,14 @@ export const signIn = async (email: string, password: string) => {
     );
     return result.user;
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_AUTH_MESSAGES[error.code];
-      throw new Error(message);
-    }
-    throw new Error('서버와의 통신 중 오류가 발생했습니다.');
+    throw handleAuthError(error, '로그인 중 오류가 발생했습니다.');
   }
 };
 
-export const signOut = async () => {
+export const signOut = async (): Promise<void> => {
   try {
     await firebaseSignOut(authService);
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_AUTH_MESSAGES[error.code];
-      throw new Error(message);
-    }
-    throw new Error('서버와의 통신 중 오류가 발생했습니다.');
+    throw handleAuthError(error, '로그아웃 중 오류가 발생했습니다.');
   }
 };

@@ -1,18 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 
-export type AuthUser = {
-  uid: string;
-  email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
-  isAdmin: boolean;
+import type { AuthUser } from '../types';
+
+const getCachedUser = () => {
+  const cached = localStorage.getItem('authUser');
+  return cached ? JSON.parse(cached) : undefined;
 };
 
 export function useAuth() {
   return useQuery<AuthUser | null>({
     queryKey: ['currentUser'],
     queryFn: () => null,
-    initialData: null,
+    initialData: getCachedUser,
     staleTime: Infinity,
   });
 }

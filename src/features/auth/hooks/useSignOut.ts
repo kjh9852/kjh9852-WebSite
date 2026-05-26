@@ -1,6 +1,6 @@
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 
-import { signOut } from '@/features/auth/api/auth';
+import { signOut } from '../api/auth';
 
 export function useSignOut() {
   const queryClient = useQueryClient();

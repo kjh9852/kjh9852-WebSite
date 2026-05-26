@@ -8,19 +8,21 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import react from 'eslint-plugin-react';
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'vite.config.ts']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
+      react.configs.flat
+        ? react.configs.flat.recommended
+        : react.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
     languageOptions: {
       ecmaVersion: 2020,
       globals: { ...globals.browser, ...globals.node },
-      // 🚀 핵심 1: TS 파서를 명시해야 경로 분석이 정확해집니다.
       parser: tseslint.parser,
       parserOptions: {
         project: ['./tsconfig.app.json'],
@@ -33,7 +35,6 @@ export default defineConfig([
     },
     settings: {
       react: { version: 'detect' },
-      // 🚀 핵심 2: 리졸버 설정 (이게 없으면 @/를 인식 못 함)
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,

@@ -1,24 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { uploadImage } from '@/api/uploadImage';
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import { Button, Input } from '@/components/ui';
-import { useSignUp } from '@/features/auth/hooks/useSignUp';
-import { signUpSchema } from '@/features/auth/schemas/auth.schema';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 import { createImageChangeHandler } from '@/utils/image';
 
+import { useSignUp } from '../hooks/useSignUp';
+import { signUpSchema, type SignUpFormValues } from '../schemas/auth.schema';
+
 import styles from './AuthForm.module.scss';
 
-type SignUpFormValues = z.infer<typeof signUpSchema>;
-
 export default function SignUp() {
-  const queryClient = useQueryClient();
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -70,21 +66,12 @@ export default function SignUp() {
     };
 
     signUp(updatePayload, {
-      onSuccess: async (newUser) => {
-        if (newUser) {
-          await queryClient.setQueryData(['currentUser'], {
-            uid: newUser.uid,
-            email: newUser.email,
-            displayName: newUser.displayName,
-            photoURL: newUser.photoURL,
-            isAdmin: false,
-          });
-        }
+      onSuccess: () => {
         showToast({ type: 'success', message: '회원가입 되었습니다.' });
         closeModal();
       },
       onError: (error: Error) => {
-        const message = error.message ?? '알 수 없는 오류가 발생했습니다.';
+        const message = error.message || '알 수 없는 오류가 발생했습니다.';
         showToast({ type: 'warning', message });
       },
     });
