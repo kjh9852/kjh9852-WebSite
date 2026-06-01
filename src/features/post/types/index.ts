@@ -1,26 +1,33 @@
-export interface Post {
+import type { PostFormValues } from '../schemas/post.schema';
+
+export type Post = {
   id: string;
   content: string;
   authorId: string;
-  userName?: string | null;
-  userImage?: string | undefined;
-  createDate: Date;
-}
+  createdAt?: string;
+  updatedAt?: string;
+};
 
-export interface PostProps {
+export type EditPost = {
+  postId: string;
+  updatedPost: PostFormValues;
+};
+
+export type PostProps = {
+  post: Post;
+};
+
+export type PostListProps = {
+  postList: Post[];
+  onPostDetailOpen: (id: string) => void;
+};
+
+export type PostDetailProps = {
   post: Post | null | undefined;
-}
-
-export interface PostListProps {
-  postList: Post;
-  onPostDetailOpen: () => void;
-}
-
-export interface PostDetailProps {
-  post?: Post | null | undefined;
   isPending?: boolean;
-}
+};
 
-export interface InitialPost {
-  content: string;
-}
+export type PostItemProps = {
+  post: Post;
+  onClick: () => void;
+};

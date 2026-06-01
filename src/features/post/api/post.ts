@@ -16,9 +16,10 @@ import {
 import { db } from '@/api/firebase';
 import { FIREBASE_FIRESTORE_MESSAGES } from '@/constants/firebaseMessage';
 
-import { type Post, type InitialPost } from '../types';
+import type { PostFormValues } from '../schemas/post.schema';
+import type { Post, EditPost } from '../types';
 
-export async function uploadPost(data: InitialPost): Promise<void> {
+export async function uploadPost(data: PostFormValues): Promise<void> {
   const auth = getAuth();
   const user = auth.currentUser;
   await addDoc(collection(db, 'post'), {
@@ -42,14 +43,10 @@ export async function getAllPost(): Promise<Post[]> {
   return returnData;
 }
 
-export async function editPost(
-  postId: string,
-  updatePost: { content: string }
-): Promise<void> {
-  const postRef = doc(db, 'post', postId);
-
-  try {
-    await updateDoc(postRef, updatePost);
+export async function editPost({
+  postId,
+  updatedPost,
+}: EditPost): Promise<void> {
   } catch (error: unknown) {
     if (error instanceof FirebaseError) {
       const message = FIREBASE_FIRESTORE_MESSAGES[error.code];

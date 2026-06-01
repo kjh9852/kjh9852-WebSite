@@ -7,9 +7,8 @@ import { usePostStore } from '@/store/postStore';
 import { useToastStore } from '@/store/toastStore';
 
 import { useEditPost } from '../../hooks/useEditPost';
-import { type PostFormValues } from '../../schemas/post.schema';
-import { postSchema } from '../../schemas/post.schema';
-import { type PostProps } from '../../types';
+import { type PostFormValues, postSchema } from '../../schemas/post.schema';
+import type { PostProps } from '../../types';
 import PostForm from '../form/PostForm';
 
 export default function EditPost({ post }: PostProps) {
@@ -32,7 +31,7 @@ export default function EditPost({ post }: PostProps) {
   const handleEditPost = (data: PostFormValues) => {
     console.log(data);
     editPost(
-      { postId: post.id, data },
+      { postId: post.id, updatedPost: data },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
