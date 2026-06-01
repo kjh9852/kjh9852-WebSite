@@ -1,25 +1,34 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { onSnapshot, collection, orderBy, query } from 'firebase/firestore';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import { db } from '@/api/firebase';
 import { useToastStore } from '@/store/toastStore';
 
+import type { Post } from '../types';
+
 export function usePostSubscription() {
   const queryClient = useQueryClient();
   const { showToast } = useToastStore();
+  const [initialized, setInitialized] = useState(false);
+
   useEffect(() => {
-    const q = query(collection(db, 'post'), orderBy('createAt', 'desc'));
+    const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
 
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const posts = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
+        const posts = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+              createdAt: doc.data().createdAt?.toDate().toISOString(),
+            }) as Post
+        );
         queryClient.setQueryData(['post'], posts);
+
+        setInitialized(true);
       },
       (error) => {
         console.error('Firebase Subscription Error:', error);
@@ -33,4 +42,6 @@ export function usePostSubscription() {
 
     return () => unsubscribe();
   }, [queryClient, showToast]);
+
+  return { initialized };
 }

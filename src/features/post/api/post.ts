@@ -2,14 +2,11 @@ import { FirebaseError } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
   addDoc,
-  getDocs,
   getDoc,
   updateDoc,
   deleteDoc,
   doc,
   collection,
-  query,
-  orderBy,
   serverTimestamp,
 } from 'firebase/firestore';
 
@@ -19,71 +16,74 @@ import { FIREBASE_FIRESTORE_MESSAGES } from '@/constants/firebaseMessage';
 import type { PostFormValues } from '../schemas/post.schema';
 import type { Post, EditPost } from '../types';
 
-export async function uploadPost(data: PostFormValues): Promise<void> {
-  const auth = getAuth();
-  const user = auth.currentUser;
-  await addDoc(collection(db, 'post'), {
-    ...data,
-    authorId: user?.uid,
-    createDate: new Date().toISOString(),
-    createAt: serverTimestamp(),
-  });
-}
+const handlePostError = (error: unknown, defaultMessage: string) => {
+  if (error instanceof FirebaseError) {
+    const message = FIREBASE_FIRESTORE_MESSAGES[error.code] || defaultMessage;
+    return new Error(message);
+  }
 
-export async function getAllPost(): Promise<Post[]> {
-  const q = query(collection(db, 'post'), orderBy('createDate', 'desc'));
-  const response = await getDocs(q);
-  const returnData = response.docs.map((doc) => ({
-    id: doc.id,
-    content: doc.data().content,
-    authorId: doc.data().authorId,
-    createDate: doc.data().createDate,
-    createAt: doc.data().createAt,
-  }));
-  return returnData;
+  if (error instanceof Error) {
+    return error;
+  }
+
+  return new Error(defaultMessage);
+};
+
+export async function uploadPost(data: PostFormValues): Promise<void> {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error('로그인이 필요한 서비스 입니다.');
+
+    await addDoc(collection(db, 'posts'), {
+      ...data,
+      authorId: user.uid,
+      createdAt: serverTimestamp(),
+    });
+  } catch (error: unknown) {
+    throw handlePostError(error, '게시글 업로드 중 오류가 발생했습니다.');
+  }
 }
 
 export async function editPost({
   postId,
   updatedPost,
 }: EditPost): Promise<void> {
+  try {
+    const postRef = doc(db, 'posts', postId);
+    await updateDoc(postRef, { ...updatedPost, updatedAt: serverTimestamp() });
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_FIRESTORE_MESSAGES[error.code];
-      throw new Error(message);
-    }
-    throw new Error('서버와의 통신 중 오류가 발생했습니다.');
+    throw handlePostError(error, '서버와의 통신 중 오류가 발생했습니다.');
   }
 }
 
 export async function getPost(postId: string): Promise<Post | null> {
-  const postRef = doc(db, 'post', postId);
-  const response = await getDoc(postRef);
+  try {
+    const postRef = doc(db, 'posts', postId);
+    const response = await getDoc(postRef);
 
-  if (!response.exists()) {
-    return null;
+    if (!response.exists()) {
+      return null;
+    }
+
+    const data = response.data();
+
+    return {
+      id: response.id,
+      authorId: data.authorId,
+      content: data.content,
+      createdAt: data.createdAt?.toDate()?.toISOString(),
+    };
+  } catch (error: unknown) {
+    throw handlePostError(error, '게시글을 불러오는 중 오류가 발생했습니다.');
   }
-
-  const data = response.data();
-
-  return {
-    id: response.id,
-    authorId: data.authorId,
-    content: data.content,
-    createDate: data.createDate,
-  };
 }
 
 export async function deletePost(postId: string): Promise<void> {
-  const postRef = doc(db, 'post', postId);
-
   try {
+    const postRef = doc(db, 'posts', postId);
     await deleteDoc(postRef);
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_FIRESTORE_MESSAGES[error.code];
-      throw new Error(message);
-    }
-    throw new Error('서버와의 통신 중 오류가 발생했습니다.');
+    throw handlePostError(error, '게시글 삭제 중 오류가 발생했습니다.');
   }
 }
