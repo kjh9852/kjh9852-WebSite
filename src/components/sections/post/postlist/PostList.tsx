@@ -1,43 +1,47 @@
-import { useRef } from 'react';
+import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import defaultProfile from '@/assets/icons/profile_icon.png';
-import { useUserMetaData } from '@/features/auth';
-import { type PostListProps } from '@/features/post/types';
-import convertTime from '@/utils/convertTime';
+import { type PostListProps } from '@/features/post';
 
+import PostItem from '../postItem/PostItem';
+
+import 'swiper/css';
 import styles from './PostList.module.scss';
 
 export default function PostList({
   postList,
   onPostDetailOpen,
 }: PostListProps) {
-  const contentRef = useRef(null);
-  const { data: author } = useUserMetaData(postList.authorId);
+  const [swiperMoving, setSwiperMoving] = useState(false);
+
+  if (!postList || postList.length === 0)
+    return (
+      <div className={styles.emptyWrapper}>
+        <p>등록된 게시글이 없습니다.</p>
+      </div>
+    );
 
   return (
-    <div
-      ref={contentRef}
-      className={styles.contentContainer}
-      role="button"
-      onClick={onPostDetailOpen}
+    <Swiper
+      className={styles.customSwiper}
+      onSliderFirstMove={() => setSwiperMoving(true)}
+      onTransitionEnd={() => setSwiperMoving(false)}
+      threshold={10}
+      preventClicks={true}
+      preventClicksPropagation={true}
+      touchStartPreventDefault={false}
+      height={1000}
+      spaceBetween={50}
+      slidesPerView={4}
     >
-      <div className={styles.notePaperImage}>
-        <p className={styles.content}>{postList.content}</p>
-        {author && (
-          <div className={styles.userContainer}>
-            <img
-              className={styles.userImage}
-              src={author?.photoURL || defaultProfile}
-              alt="유저 이미지"
-            />
-            <div className={styles.userInfo}>
-              <p>{author?.displayName}</p>
-              <span className={styles.pipeLine} />
-              <p>{convertTime(postList.createDate)}</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+      {postList?.map((post) => (
+        <SwiperSlide key={post.id}>
+          <PostItem
+            post={post}
+            onClick={() => !swiperMoving && onPostDetailOpen(post.id)}
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 }
