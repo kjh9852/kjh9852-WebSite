@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { useModalStore } from '@/store/modalStore';
@@ -24,19 +23,11 @@ export default function EditPost({ post }: PostProps) {
     mode: 'onChange',
   });
 
-  const queryClient = useQueryClient();
-
-  if (!post) return null;
-
   const handleEditPost = (data: PostFormValues) => {
-    console.log(data);
     editPost(
       { postId: post.id, updatedPost: data },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['post'],
-          });
           showToast({ type: 'success', message: '포스트가 수정되었습니다.' });
           closePost();
           closeModal();
