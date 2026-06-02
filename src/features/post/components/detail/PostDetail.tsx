@@ -14,12 +14,13 @@ import { type PostDetailProps } from '../../types';
 import styles from './PostDetail.module.scss';
 
 export default function PostDetail({ post, isPending }: PostDetailProps) {
-  const { showToast } = useToastStore();
   const { data: user } = useAuth();
   const { data: author } = useUserMetaData(post?.authorId || '');
   const { mutate: deletePost } = useDeletePost();
-  const { closeModal } = useModalStore();
-  const { openPost, closePost } = usePostStore();
+  const closeModal = useModalStore((state) => state.closeModal);
+  const openPost = usePostStore((state) => state.openPost);
+  const closePost = usePostStore((state) => state.closePost);
+  const showToast = useToastStore((state) => state.showToast);
   const [postMenuOpen, togglePostMenu, setPostMenuOpen] = useToggle(false);
 
   const queryClient = useQueryClient();

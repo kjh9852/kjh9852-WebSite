@@ -15,7 +15,8 @@ export default function Post() {
   const { initialized } = usePostSubscription();
   const { data: postList } = useGetPosts();
   const { data: user } = useAuth();
-  const { openPost } = usePostStore();
+  const openPost = usePostStore((state) => state.openPost);
+  const openModal = useModalStore((state) => state.openModal);
   const [myPost, setMyPost] = useState<boolean>(false);
 
   const currentPosts = postList ?? [];
@@ -29,7 +30,7 @@ export default function Post() {
     openPost('add', '');
   };
 
-  const handlelOpenPostDetail = (id: string) => {
+  const handleOpenPostDetail = (id: string) => {
     openModal('post');
     openPost('detail', id);
   };
@@ -55,12 +56,12 @@ export default function Post() {
             <Loading />
           </div>
         ) : (
-        <div className={styles.postContainer}>
-                <PostList
+          <div className={styles.postContainer}>
+            <PostList
               postList={filteredPostList}
               onPostDetailOpen={handleOpenPostDetail}
-                />
-        </div>
+            />
+          </div>
         )}
       </Wrapper>
     </Section>

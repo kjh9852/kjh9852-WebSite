@@ -11,10 +11,11 @@ import type { PostProps } from '../../types';
 import PostForm from '../form/PostForm';
 
 export default function EditPost({ post }: PostProps) {
-  const { showToast } = useToastStore();
-  const { closePost } = usePostStore();
-  const { closeModal } = useModalStore();
+  const closePost = usePostStore((state) => state.closePost);
+  const closeModal = useModalStore((state) => state.closeModal);
+  const showToast = useToastStore((state) => state.showToast);
   const { mutate: editPost, isPending } = useEditPost();
+
   const form = useForm<PostFormValues>({
     resolver: zodResolver(postSchema),
     defaultValues: {

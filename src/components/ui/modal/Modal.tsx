@@ -20,8 +20,10 @@ const MODAL_COMPONENT = {
 } as const;
 
 export default function Modal() {
-  const { isOpen, modalType, closeModal } = useModalStore();
-  const { type } = usePostStore();
+  const isOpen = useModalStore((state) => state.isOpen);
+  const modalType = useModalStore((state) => state.modalType);
+  const closeModal = useModalStore((state) => state.closeModal);
+  const type = usePostStore((state) => state.type);
   const modalRef = useRef<HTMLDivElement>(null);
   const backDropRef = useRef<HTMLDivElement>(null);
 
