@@ -12,3 +12,5 @@ export { useDeletePost } from './hooks/useDeletePost';
 export { usePostSubscription } from './hooks/usePostSubscription';
 
 export * from './schemas/post.schema';
+
+export * from './types';

@@ -1,4 +1,4 @@
-export default function convertTime(getTime: Date) {
+export default function convertTime(getTime: string) {
   const startTime = new Date(getTime);
   const endTime = new Date();
 

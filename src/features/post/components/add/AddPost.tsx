@@ -10,10 +10,10 @@ import { postSchema, type PostFormValues } from '../../schemas/post.schema';
 import PostForm from '../form/PostForm';
 
 export default function AddPost() {
-  const { closeModal } = useModalStore();
-  const { closePost } = usePostStore();
+  const closeModal = useModalStore((state) => state.closeModal);
+  const closePost = usePostStore((state) => state.closePost);
+  const showToast = useToastStore((state) => state.showToast);
   const { mutate: addPost, isPending } = useUploadPost();
-  const { showToast } = useToastStore();
 
   const form = useForm<PostFormValues>({
     resolver: zodResolver(postSchema),

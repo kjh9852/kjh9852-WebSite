@@ -1,11 +1,14 @@
-.customSwiper {
-  padding: 36px 0;
-}
-
 .buttonContainer {
   display: flex;
   flex-direction: row;
   gap: 12px;
   margin-left: 24px;
   padding-bottom: 32px;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
 }

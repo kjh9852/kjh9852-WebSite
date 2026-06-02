@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { useModalStore } from '@/store/modalStore';
@@ -7,16 +6,16 @@ import { usePostStore } from '@/store/postStore';
 import { useToastStore } from '@/store/toastStore';
 
 import { useEditPost } from '../../hooks/useEditPost';
-import { type PostFormValues } from '../../schemas/post.schema';
-import { postSchema } from '../../schemas/post.schema';
-import { type PostProps } from '../../types';
+import { type PostFormValues, postSchema } from '../../schemas/post.schema';
+import type { PostProps } from '../../types';
 import PostForm from '../form/PostForm';
 
 export default function EditPost({ post }: PostProps) {
-  const { showToast } = useToastStore();
-  const { closePost } = usePostStore();
-  const { closeModal } = useModalStore();
+  const closePost = usePostStore((state) => state.closePost);
+  const closeModal = useModalStore((state) => state.closeModal);
+  const showToast = useToastStore((state) => state.showToast);
   const { mutate: editPost, isPending } = useEditPost();
+
   const form = useForm<PostFormValues>({
     resolver: zodResolver(postSchema),
     defaultValues: {
@@ -25,19 +24,11 @@ export default function EditPost({ post }: PostProps) {
     mode: 'onChange',
   });
 
-  const queryClient = useQueryClient();
-
-  if (!post) return null;
-
   const handleEditPost = (data: PostFormValues) => {
-    console.log(data);
     editPost(
-      { postId: post.id, data },
+      { postId: post.id, updatedPost: data },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ['post'],
-          });
           showToast({ type: 'success', message: '포스트가 수정되었습니다.' });
           closePost();
           closeModal();

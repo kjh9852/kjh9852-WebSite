@@ -1,0 +1,107 @@
+.contentContainer {
+  padding: 60px;
+  width: 416px;
+  height: 415px;
+
+  &:hover {
+    .notePaperImage {
+      &::before,
+      &::after {
+        transform: scale(0.9) rotateY(-90deg);
+      }
+
+      &::after {
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: saturate(100%) blur(0px);
+      }
+    }
+
+    .notePaper {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(0px);
+    }
+  }
+}
+
+.notePaperImage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px;
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0px 6px 5px 0px rgba(0, 0, 0, 0.3);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    transform-origin: left center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); // 더 부드러운 베지어 곡선
+    transform: translateZ(0);
+    will-change: transform, backdrop-filter;
+  }
+
+  &::before {
+    top: -65px;
+    left: -60px;
+    width: 140%;
+    height: 430px;
+    background: url('@/assets/images/submarine.svg') no-repeat center center;
+    background-size: cover;
+    z-index: 3;
+  }
+
+  &::after {
+    top: -23px;
+    left: 0;
+    overflow: hidden;
+    width: 346px;
+    height: 342px;
+    border-radius: 50%;
+    transform-origin: -60px center;
+    backdrop-filter: saturate(100%) blur(2px);
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 2;
+  }
+}
+
+.content {
+  flex: 1 0;
+  white-space: normal;
+  word-break: break-all;
+  user-select: none;
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  user-select: none;
+}
+
+.userImage {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+.pipeLine {
+  display: inline-block;
+  margin: 0 8px;
+  width: 1px;
+  height: 12px;
+  background: #888;
+}

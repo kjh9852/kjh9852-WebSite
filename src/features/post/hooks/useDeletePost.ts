@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { deletePost } from '@/features/post/api/post';
+import { deletePost } from '../api/post';
 
 export function useDeletePost() {
   return useMutation({

@@ -1,15 +1,12 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { editPost } from '@/features/post/api/post';
-import { type PostFormValues } from '@/features/post/schemas/post.schema';
-
-interface EditPostVariables {
-  postId: string;
-  data: PostFormValues;
-}
+import { editPost } from '../api/post';
 
 export function useEditPost() {
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ postId, data }: EditPostVariables) => editPost(postId, data),
+    mutationFn: editPost,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['post'] }),
   });
 }
