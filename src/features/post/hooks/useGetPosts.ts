@@ -1,12 +1,14 @@
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
-import { getAllPost } from '@/features/post/api/post';
+import type { Post } from '../types';
 
 export function useGetPosts() {
-  return useQuery({
+  return useQuery<Post[]>({
     queryKey: ['post'],
-    queryFn: () => getAllPost(),
-    placeholderData: keepPreviousData,
-    refetchOnWindowFocus: true,
+    queryFn: () => {
+      return [] as Post[];
+    },
+    initialData: [],
+    staleTime: Infinity,
   });
 }
