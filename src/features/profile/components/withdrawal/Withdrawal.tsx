@@ -57,6 +57,7 @@ export default function Withdrawal() {
               placeHolder="비밀번호를 입력해주세요"
               isPassword
               showValidationIcon
+              registerOptions={{ deps: ['passwordConfirm'] }}
             />
           </div>
           <div className={styles.inputContainer}>

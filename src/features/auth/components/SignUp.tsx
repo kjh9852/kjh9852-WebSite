@@ -22,7 +22,7 @@ export default function SignUp() {
       password: '',
       displayName: '',
     },
-    mode: 'onChange',
+    mode: 'onTouched',
   });
   const { showToast } = useToastStore();
   const { openModal, closeModal } = useModalStore();
@@ -141,6 +141,7 @@ export default function SignUp() {
               placeHolder="비밀번호를 입력해 주세요"
               isPassword
               showValidationIcon
+              registerOptions={{ deps: ['passwordConfirm'] }}
             />
           </div>
           <div className={styles.inputContainer}>

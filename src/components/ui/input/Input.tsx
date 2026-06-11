@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, type RegisterOptions } from 'react-hook-form';
 
 import { CloseIcon, CheckIcon, PasswordIcon } from '@/components/ui/icons';
 
@@ -18,6 +18,7 @@ type InputProps = {
   showErrorMessage?: boolean;
   className?: string | undefined;
   inputClassName?: string | undefined;
+  registerOptions?: RegisterOptions;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function Input({
@@ -32,11 +33,12 @@ export default function Input({
   showErrorMessage = true,
   className,
   inputClassName,
+  registerOptions,
   ...rest
 }: InputProps) {
   const {
     register,
-    formState: { errors, touchedFields },
+    formState: { errors, touchedFields, isSubmitted },
     watch,
   } = useFormContext();
   const [isVisible, setIsVisible] = useState(false);
@@ -45,6 +47,8 @@ export default function Input({
   const touchedField = touchedFields[id];
 
   const isUnstyled = variant === 'unstyled';
+
+  const showError = !!fieldError && (touchedField || isSubmitted);
 
   const errorMessage =
     fieldError && 'message' in fieldError ? fieldError.message : undefined;
@@ -66,13 +70,13 @@ export default function Input({
             styles.input,
             !isUnstyled && styles.focusOutline,
             shape === 'rounded' && styles.square,
-            fieldError && styles.error,
+            showError && styles.error,
             inputClassName
           )}
           type={isPassword ? (isVisible ? 'text' : 'password') : type}
           id={id}
           placeholder={placeHolder}
-          {...register(id)}
+          {...register(id, registerOptions)}
           {...rest}
         />
         <div className={styles.fieldIconContainer}>
@@ -88,7 +92,7 @@ export default function Input({
           )}
         </div>
       </div>
-      {showErrorMessage && errorMessage && (
+      {showErrorMessage && showError && (
         <p className={styles.errorMessage}>{String(errorMessage)}</p>
       )}
     </>
