@@ -9,4 +9,5 @@ export { useSignUp } from './hooks/useSignUp';
 export { useUserMetaData } from './hooks/userUserMetaData';
 export { useAuthObserver } from './hooks/useAuthObserver';
 
+export * from './types';
 export * from './schemas/auth.schema';

@@ -1,10 +1,13 @@
+export type UserProfile = {
+  displayName: string;
+  photoURL: string | null;
+};
+
 export type AuthUser = {
   uid: string;
   email: string | null;
-  displayName: string | null;
-  photoURL: string | null;
   isAdmin: boolean;
-};
+} & UserProfile;
 
 export type SignInType = {
   email: string;
@@ -14,6 +17,4 @@ export type SignInType = {
 export type SignUpType = {
   email: string;
   password: string;
-  displayName: string;
-  photoURL?: string;
-};
+} & UserProfile;
