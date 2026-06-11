@@ -10,3 +10,8 @@ export const passwordSchema = z
   .string()
   .nonempty({ message: '비밀번호를 입력해주세요.' })
   .min(8, { message: '비밀번호를 8자 이상 입력해주세요.' });
+
+export const passwordConfirmSchema = z
+  .string()
+  .nonempty({ message: '비밀번호를 입력해주세요.' })
+  .min(8, { message: '비밀번호를 8자 이상 입력해주세요.' });
