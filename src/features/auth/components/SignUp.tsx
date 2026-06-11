@@ -11,6 +11,7 @@ import { createImageChangeHandler } from '@/utils/image';
 
 import { useSignUp } from '../hooks/useSignUp';
 import { signUpSchema, type SignUpFormValues } from '../schemas/auth.schema';
+import type { SignUpType } from '../types';
 
 import styles from './AuthForm.module.scss';
 
@@ -58,11 +59,11 @@ export default function SignUp() {
       }
     }
 
-    const updatePayload = {
+    const updatePayload: SignUpType = {
       email: data.email,
       password: data.password,
       displayName: data.displayName,
-      photoURL: uploadImageUrl || '',
+      photoURL: uploadImageUrl ?? null,
     };
 
     signUp(updatePayload, {
