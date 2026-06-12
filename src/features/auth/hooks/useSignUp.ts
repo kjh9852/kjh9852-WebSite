@@ -1,19 +1,20 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { signUp } from '../api/auth';
+import type { AuthUser } from '../types';
 
 export function useSignUp() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: signUp,
-    onSuccess: (newUser) => {
+    onSuccess: (newUser, variables) => {
       if (newUser) {
-        queryClient.setQueryData(['currentUser'], {
+        queryClient.setQueryData<AuthUser>(['currentUser'], {
           uid: newUser.uid,
           email: newUser.email,
-          displayName: newUser.displayName,
-          photoURL: newUser.photoURL,
+          displayName: variables.displayName,
+          photoURL: variables.photoURL,
           isAdmin: false,
         });
       }
