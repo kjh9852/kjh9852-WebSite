@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { useProjectStore } from '@/store/projectStore';
@@ -15,7 +14,6 @@ export default function AddProject() {
   const showToast = useToastStore((state) => state.showToast);
   const closeProject = useProjectStore((state) => state.closeProject);
   const { mutate: addProject, isPending } = usePostProject();
-  const queryClient = useQueryClient();
 
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema),
@@ -38,9 +36,6 @@ export default function AddProject() {
 
     addProject(uploadData, {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['project'],
-        });
         showToast({ type: 'success', message: '프로젝트가 등록되었습니다.' });
         closeProject();
       },

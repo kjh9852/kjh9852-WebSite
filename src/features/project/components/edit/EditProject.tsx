@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { useProjectStore } from '@/store/projectStore';
@@ -33,7 +32,6 @@ export default function EditProject({ project }: EditProjectProps) {
     },
     mode: 'onChange',
   });
-  const queryClient = useQueryClient();
 
   if (!project) {
     return null;
@@ -51,10 +49,6 @@ export default function EditProject({ project }: EditProjectProps) {
       { projectId: project.id, data: uploadData },
       {
         onSuccess: () => {
-          console.log('업로드');
-          queryClient.invalidateQueries({
-            queryKey: ['project'],
-          });
           showToast({ type: 'success', message: '프로젝트가 수정되었습니다.' });
           closeProject();
         },

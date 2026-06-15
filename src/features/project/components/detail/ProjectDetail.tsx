@@ -1,4 +1,3 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { type SetStateAction } from 'react';
 
 import { Dropdown, DotMenu, Loading } from '@/components/ui';
@@ -28,7 +27,6 @@ export default function ProjectDetail({
   const openProject = useProjectStore((state) => state.openProject);
   const closeProject = useProjectStore((state) => state.closeProject);
   const { mutate: deleteProject } = useDeleteProject();
-  const queryClient = useQueryClient();
 
   if (isPending) {
     return <Loading />;
@@ -41,12 +39,6 @@ export default function ProjectDetail({
   const handleDeleteProject = () => {
     deleteProject(project.id, {
       onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['project'],
-        });
-        queryClient.removeQueries({
-          queryKey: ['project', project.id],
-        });
         showToast({ type: 'success', message: '프로젝트가 삭제되었습니다.' });
         closeProject();
       },
