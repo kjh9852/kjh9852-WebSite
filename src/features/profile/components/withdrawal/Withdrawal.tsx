@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Input } from '@/components/ui';
@@ -15,9 +14,8 @@ import {
 import styles from './Withdrawal.module.scss';
 
 export default function Withdrawal() {
-  const queryClient = useQueryClient();
-  const { showToast } = useToastStore();
-  const { closeModal } = useModalStore();
+  const showToast = useToastStore((state) => state.showToast);
+  const closeModal = useModalStore((state) => state.closeModal);
   const { mutate: withdraw } = useDeleteUser();
   const form = useForm<WithdrawFormValues>({
     resolver: zodResolver(deleteUserSchema),
@@ -31,8 +29,7 @@ export default function Withdrawal() {
   const handleDeleteUser = (data: WithdrawFormValues) => {
     withdraw(data.password, {
       onSuccess: () => {
-        queryClient.clear();
-        showToast({ type: 'success', message: '탈퇴 되었습니다.' });
+        showToast({ type: 'success', message: '정상적으로 탈퇴 되었습니다.' });
         closeModal();
       },
       onError: (error: Error) => {
@@ -57,6 +54,7 @@ export default function Withdrawal() {
               placeHolder="비밀번호를 입력해주세요"
               isPassword
               showValidationIcon
+              registerOptions={{ deps: ['passwordConfirm'] }}
             />
           </div>
           <div className={styles.inputContainer}>

@@ -1,8 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { onAuthStateChanged } from 'firebase/auth';
+import { getDoc, doc } from 'firebase/firestore';
 import { useEffect } from 'react';
 
-import { authService } from '@/api/firebase';
+import { authService, db } from '@/api/firebase';
 import { useToastStore } from '@/store/toastStore';
 
 import type { AuthUser } from '../types';
@@ -17,11 +18,14 @@ export function useAuthObserver() {
         try {
           const tokenResult = await user.getIdTokenResult();
 
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          const userData = userDoc.data();
+
           const authData: AuthUser = {
             uid: user.uid,
             email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
+            displayName: userData?.displayName,
+            photoURL: userData?.photoURL,
             isAdmin: !!tokenResult.claims.admin,
           };
 

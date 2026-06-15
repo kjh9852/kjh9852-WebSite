@@ -42,6 +42,7 @@ export default function PostDetail({ post, isPending }: PostDetailProps) {
     );
 
   const isAuthor = authorId === user?.uid;
+  const isAdmin = user?.isAdmin;
 
   const handleEditModalOpen = () => {
     openPost('edit', post.id);
@@ -64,7 +65,7 @@ export default function PostDetail({ post, isPending }: PostDetailProps) {
   return (
     <div className={styles.container}>
       <div className={styles.dropdownWrapper}>
-        {isAuthor && (
+        {(isAdmin || isAuthor) && (
           <Dropdown
             dropdownList={POST_MENU}
             isOpen={postMenuOpen}

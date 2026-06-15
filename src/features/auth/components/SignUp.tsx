@@ -11,6 +11,7 @@ import { createImageChangeHandler } from '@/utils/image';
 
 import { useSignUp } from '../hooks/useSignUp';
 import { signUpSchema, type SignUpFormValues } from '../schemas/auth.schema';
+import type { SignUpType } from '../types';
 
 import styles from './AuthForm.module.scss';
 
@@ -22,7 +23,7 @@ export default function SignUp() {
       password: '',
       displayName: '',
     },
-    mode: 'onChange',
+    mode: 'onTouched',
   });
   const { showToast } = useToastStore();
   const { openModal, closeModal } = useModalStore();
@@ -58,11 +59,11 @@ export default function SignUp() {
       }
     }
 
-    const updatePayload = {
+    const updatePayload: SignUpType = {
       email: data.email,
       password: data.password,
       displayName: data.displayName,
-      photoURL: uploadImageUrl || '',
+      photoURL: uploadImageUrl ?? null,
     };
 
     signUp(updatePayload, {
@@ -141,6 +142,7 @@ export default function SignUp() {
               placeHolder="비밀번호를 입력해 주세요"
               isPassword
               showValidationIcon
+              registerOptions={{ deps: ['passwordConfirm'] }}
             />
           </div>
           <div className={styles.inputContainer}>

@@ -3,7 +3,6 @@ import {
   signInWithEmailAndPassword,
   signOut as firebaseSignOut,
   createUserWithEmailAndPassword,
-  updateProfile,
   onAuthStateChanged,
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
@@ -38,33 +37,22 @@ export const signUp = async ({
   photoURL,
 }: SignUpType): Promise<User> => {
   try {
-    const { user } = await createUserWithEmailAndPassword(
-      authService,
-      email,
-      password
-    );
+    await createUserWithEmailAndPassword(authService, email, password);
 
-    await updateProfile(user, {
-      displayName: displayName,
-      photoURL: photoURL ?? null,
-    });
+    const newUser = authService.currentUser;
 
-    await user.reload();
+    if (!newUser) throw new Error('유저 정보를 찾을 수 없습니다.');
 
-    const updateUser = authService.currentUser;
-
-    if (!updateUser) throw new Error('유저 정보를 찾을 수 없습니다.');
-
-    await setDoc(doc(db, 'users', updateUser.uid), {
-      uid: updateUser.uid,
-      email: updateUser.email,
+    await setDoc(doc(db, 'users', newUser.uid), {
+      uid: newUser.uid,
+      email: newUser.email,
       displayName,
-      photoURL: updateUser.photoURL,
+      photoURL,
       isAdmin: false,
       createdAt: serverTimestamp(),
     });
 
-    return updateUser;
+    return newUser;
   } catch (error: unknown) {
     throw handleAuthError(error, '회원가입 처리 중 오류가 발생했습니다.');
   }

@@ -1,6 +1,10 @@
 import { z } from 'zod';
 
-import { displayNameSchema, passwordSchema } from '@/schemas/user';
+import {
+  displayNameSchema,
+  passwordSchema,
+  passwordConfirmSchema,
+} from '@/schemas/user.schemas';
 
 export const profileSchema = z.object({
   displayName: displayNameSchema,
@@ -9,9 +13,7 @@ export const profileSchema = z.object({
 export const deleteUserSchema = z
   .object({
     password: passwordSchema,
-    passwordConfirm: z
-      .string()
-      .nonempty({ message: '비밀번호 확인을 입력해주세요.' }),
+    passwordConfirm: passwordConfirmSchema,
   })
   .refine((data) => data.password === data.passwordConfirm, {
     path: ['passwordConfirm'],
