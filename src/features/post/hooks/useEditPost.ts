@@ -7,6 +7,9 @@ export function useEditPost() {
 
   return useMutation({
     mutationFn: editPost,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['post'] }),
+    onSuccess: (_, variables) => {
+      const { postId } = variables;
+      queryClient.invalidateQueries({ queryKey: ['post', postId] });
+    },
   });
 }
