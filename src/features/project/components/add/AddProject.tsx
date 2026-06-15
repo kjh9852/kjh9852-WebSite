@@ -12,8 +12,8 @@ import { projectSchema } from '../../schemas/project.schema';
 import ProjectForm from '../form/ProjectForm';
 
 export default function AddProject() {
-  const { showToast } = useToastStore();
-  const { closeProject } = useProjectStore();
+  const showToast = useToastStore((state) => state.showToast);
+  const closeProject = useProjectStore((state) => state.closeProject);
   const { mutate: addProject, isPending } = usePostProject();
   const queryClient = useQueryClient();
 

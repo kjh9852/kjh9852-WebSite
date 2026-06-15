@@ -19,8 +19,8 @@ interface EditProjectProps {
 }
 
 export default function EditProject({ project }: EditProjectProps) {
-  const { showToast } = useToastStore();
-  const { closeProject } = useProjectStore();
+  const showToast = useToastStore((state) => state.showToast);
+  const closeProject = useProjectStore((state) => state.closeProject);
   const { mutate: editProject, isPending } = useEditProject();
 
   const form = useForm<ProjectFormValues>({

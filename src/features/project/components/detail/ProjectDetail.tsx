@@ -24,10 +24,11 @@ export default function ProjectDetail({
   setProjectOpen,
   toggleProject,
 }: ProjectProps) {
+  const showToast = useToastStore((state) => state.showToast);
+  const openProject = useProjectStore((state) => state.openProject);
+  const closeProject = useProjectStore((state) => state.closeProject);
   const { mutate: deleteProject } = useDeleteProject();
-  const { showToast } = useToastStore();
   const queryClient = useQueryClient();
-  const { openProject, closeProject } = useProjectStore();
 
   if (isPending) {
     return <Loading />;
