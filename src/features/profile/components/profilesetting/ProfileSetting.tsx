@@ -1,13 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { authService } from '@/api/firebase';
 import { uploadImage } from '@/api/uploadImage';
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import { Button, Input } from '@/components/ui';
-import { useAuth } from '@/features/auth';
+import { useAuth, type UserProfile } from '@/features/auth';
 import { useModalStore } from '@/store/modalStore';
 import { useToastStore } from '@/store/toastStore';
 import { createImageChangeHandler } from '@/utils/image';
@@ -21,12 +19,12 @@ import {
 import styles from './ProfileSetting.module.scss';
 
 export default function ProfileSetting() {
-  const queryClient = useQueryClient();
   const { data: user } = useAuth();
-  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
-  const { openModal, closeModal } = useModalStore();
-  const { showToast } = useToastStore();
   const { mutate: profileUpdate, isPending } = useUserUpdate();
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const openModal = useModalStore((state) => state.openModal);
+  const closeModal = useModalStore((state) => state.closeModal);
+  const showToast = useToastStore((state) => state.showToast);
 
   const form = useForm<ProfileSettingValues>({
     resolver: zodResolver(profileSchema),
@@ -43,7 +41,8 @@ export default function ProfileSetting() {
   }, [user, form]);
 
   const handleUpdateUserProfile = async (data: ProfileSettingValues) => {
-    let uploadImageUrl = user?.photoURL;
+    const userProfileImage = user?.photoURL;
+    let uploadImageUrl;
 
     if (imageFile) {
       try {
@@ -58,25 +57,13 @@ export default function ProfileSetting() {
       }
     }
 
-    const updatePayload: Parameters<typeof profileUpdate>[0] = {
-      ...data,
+    const updatePayload: UserProfile = {
+      displayName: data.displayName,
+      photoURL: uploadImageUrl ?? userProfileImage ?? null,
     };
 
-    if (uploadImageUrl) {
-      updatePayload.photoURL = uploadImageUrl;
-    }
-
     profileUpdate(updatePayload, {
-      onSuccess: async () => {
-        const updateUser = authService.currentUser;
-
-        if (updateUser) {
-          queryClient.setQueryData(['currentUser'], { ...updateUser });
-          queryClient.invalidateQueries({
-            queryKey: ['users', updateUser.uid],
-          });
-        }
-
+      onSuccess: () => {
         showToast({ type: 'success', message: '프로필이 변경되었습니다.' });
         closeModal();
       },
@@ -107,6 +94,8 @@ export default function ProfileSetting() {
     };
   }, [previewUrl]);
 
+  const hasChanged = form.formState.isDirty || !!imageFile;
+
   const profileImage = previewUrl || user?.photoURL || defaultProfile;
 
   return (
@@ -135,7 +124,7 @@ export default function ProfileSetting() {
                   width={200}
                   height={200}
                   src={profileImage}
-                  alt="이미지 미리보기"
+                  alt={`${user?.displayName} 이미지 미리보기`}
                 />
               </div>
             </div>
@@ -152,7 +141,7 @@ export default function ProfileSetting() {
           <div className={styles.buttonContainer}>
             <Button
               variant="submit"
-              disabled={!form.formState.isValid || isPending}
+              disabled={!form.formState.isValid || isPending || !hasChanged}
               type="submit"
             >
               {isPending ? '변경 중...' : '완료'}
