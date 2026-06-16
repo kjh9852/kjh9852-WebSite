@@ -22,6 +22,19 @@ interface ProjectFormProps {
   isEdit?: boolean;
 }
 
+const PROJECT_TYPE = [
+  {
+    label: '퍼블리싱',
+    value: '퍼블리싱',
+  },
+  {
+    label: '프론트엔드',
+    value: '프론트엔드',
+  },
+] as const;
+
+type ProjectCategoryType = (typeof PROJECT_TYPE)[number]['value'];
+
 export default function ProjectForm({
   onUpdateProject,
   form,
@@ -45,19 +58,6 @@ export default function ProjectForm({
     e.preventDefault();
     setIsPreview((prev) => !prev);
   };
-
-  const PROJECT_TYPE = [
-    {
-      label: '퍼블리싱',
-      value: '퍼블리싱',
-    },
-    {
-      label: '프론트엔드',
-      value: '프론트엔드',
-    },
-  ] as const;
-
-  type ProjectCategoryType = (typeof PROJECT_TYPE)[number]['value'];
 
   return (
     <div className={styles.projectFormContainer}>

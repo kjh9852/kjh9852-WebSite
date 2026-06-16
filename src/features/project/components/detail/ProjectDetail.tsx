@@ -6,6 +6,17 @@ import { useToastStore } from '@/store/toastStore';
 import { useDeleteProject } from '../../hooks/useDeleteProject';
 import type { ProjectDetailProps } from '../../types';
 
+const PROJECT_MENU = [
+  {
+    label: '수정하기',
+    value: 'edit',
+  },
+  {
+    label: '삭제하기',
+    value: 'remove',
+  },
+] as const;
+
 export default function ProjectDetail({
   project,
   isPending,
@@ -38,17 +49,6 @@ export default function ProjectDetail({
       },
     });
   };
-
-  const PROJECT_MENU = [
-    {
-      label: '수정하기',
-      value: 'edit',
-    },
-    {
-      label: '삭제하기',
-      value: 'remove',
-    },
-  ] as const;
 
   return (
     <TiptapViewer
