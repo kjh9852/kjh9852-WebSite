@@ -46,7 +46,7 @@ export default function EditProject({ project }: EditProjectProps) {
     };
 
     editProject(
-      { projectId: project.id, data: uploadData },
+      { projectId: project.id, updateProject: uploadData },
       {
         onSuccess: () => {
           showToast({ type: 'success', message: '프로젝트가 수정되었습니다.' });

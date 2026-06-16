@@ -6,8 +6,10 @@ import { useToastStore } from '@/store/toastStore';
 import { extractThumbnail } from '@/utils/image';
 
 import { usePostProject } from '../../hooks/usePostProject';
-import { type ProjectFormValues } from '../../schemas/project.schema';
-import { projectSchema } from '../../schemas/project.schema';
+import {
+  type ProjectFormValues,
+  projectSchema,
+} from '../../schemas/project.schema';
 import ProjectForm from '../form/ProjectForm';
 
 export default function AddProject() {

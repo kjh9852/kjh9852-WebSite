@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
-import { getProjects } from '@/features/project/api/project';
+import { getProjects } from '../api/project';
 
 export function useGetProjects(category: string) {
   return useQuery({

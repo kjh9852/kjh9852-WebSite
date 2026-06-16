@@ -1,20 +1,10 @@
-import { type SetStateAction } from 'react';
-
 import { Dropdown, DotMenu, Loading } from '@/components/ui';
 import { TiptapViewer } from '@/features/editor';
 import { useProjectStore } from '@/store/projectStore';
 import { useToastStore } from '@/store/toastStore';
 
 import { useDeleteProject } from '../../hooks/useDeleteProject';
-import { type Project } from '../../schemas/project.schema';
-
-interface ProjectProps {
-  project: Project | null | undefined;
-  isPending: boolean;
-  projectOpen: boolean;
-  setProjectOpen: React.Dispatch<SetStateAction<boolean>>;
-  toggleProject: () => void;
-}
+import type { ProjectDetailProps } from '../../types';
 
 export default function ProjectDetail({
   project,
@@ -22,7 +12,7 @@ export default function ProjectDetail({
   projectOpen,
   setProjectOpen,
   toggleProject,
-}: ProjectProps) {
+}: ProjectDetailProps) {
   const showToast = useToastStore((state) => state.showToast);
   const openProject = useProjectStore((state) => state.openProject);
   const closeProject = useProjectStore((state) => state.closeProject);

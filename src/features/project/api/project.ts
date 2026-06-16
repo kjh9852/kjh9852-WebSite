@@ -13,11 +13,12 @@ import {
 
 import { db } from '@/api/firebase';
 import { FIREBASE_FIRESTORE_MESSAGES } from '@/constants/firebaseMessage';
+
 import {
   type ProjectFormValues,
   type Project,
-  type UpdateProjectValues,
-} from '@/features/project/schemas/project.schema';
+} from '../schemas/project.schema';
+import type { EditProjectVariables } from '../types';
 
 export async function uploadProject(data: ProjectFormValues): Promise<void> {
   await addDoc(collection(db, 'project'), {
@@ -61,10 +62,10 @@ export async function getProject(projectId: string): Promise<Project | null> {
   }
 }
 
-export async function editProject(
-  projectId: string,
-  updateProject: UpdateProjectValues
-): Promise<void> {
+export async function editProject({
+  projectId,
+  updateProject,
+}: EditProjectVariables): Promise<void> {
   const projectRef = doc(db, 'project', projectId);
   try {
     await updateDoc(projectRef, updateProject);
