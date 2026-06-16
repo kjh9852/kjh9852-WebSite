@@ -1,10 +1,8 @@
 import { useState } from 'react';
 
-import Section from '@/components/layout/section/Section';
-import Wrapper from '@/components/layout/wrapper/Wrapper';
+import { Section, Wrapper } from '@/components/layout';
 import ProjectList from '@/components/sections/project/projectlist/ProjectList';
-import { Loading } from '@/components/ui';
-import TabMenu from '@/components/ui/tabmenu/TabMenu';
+import { Loading, TabMenu } from '@/components/ui';
 import { PROJECT_CATEGORY, type Category } from '@/constants/projectCategory';
 import { useGetProjects } from '@/features/project';
 

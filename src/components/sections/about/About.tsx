@@ -1,6 +1,5 @@
 import profileImg from '@/assets/images/profile.jpg';
-import Section from '@/components/layout/section/Section';
-import Wrapper from '@/components/layout/wrapper/Wrapper';
+import { Section, Wrapper } from '@/components/layout';
 
 import styles from './About.module.scss';
 

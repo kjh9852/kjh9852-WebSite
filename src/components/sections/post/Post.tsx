@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import Section from '@/components/layout/section/Section';
-import Wrapper from '@/components/layout/wrapper/Wrapper';
+import { Section, Wrapper } from '@/components/layout';
 import PostList from '@/components/sections/post/postlist/PostList';
 import { Button, Loading } from '@/components/ui';
 import { useAuth } from '@/features/auth';

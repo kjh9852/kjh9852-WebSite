@@ -1,5 +1,4 @@
-import Section from '@/components/layout/section/Section';
-import Wrapper from '@/components/layout/wrapper/Wrapper';
+import { Section, Wrapper } from '@/components/layout';
 import Bubble from '@/components/sections/skills/Bubble';
 
 export default function Skills() {
