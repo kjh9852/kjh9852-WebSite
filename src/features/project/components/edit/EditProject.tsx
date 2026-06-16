@@ -8,14 +8,10 @@ import { extractThumbnail } from '@/utils/image';
 import { useEditProject } from '../../hooks/useEditProject';
 import {
   projectSchema,
-  type Project,
   type ProjectFormValues,
 } from '../../schemas/project.schema';
+import type { EditProjectProps } from '../../types';
 import ProjectForm from '../form/ProjectForm';
-
-interface EditProjectProps {
-  project: Project | null | undefined;
-}
 
 export default function EditProject({ project }: EditProjectProps) {
   const showToast = useToastStore((state) => state.showToast);
