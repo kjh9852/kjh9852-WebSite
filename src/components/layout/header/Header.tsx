@@ -60,7 +60,7 @@ export default function Header() {
                   className={styles.profileIcon}
                   loading="lazy"
                   src={displayProfileImage}
-                  alt="프로필 이미지"
+                  alt={`${user?.displayName} 프로필 이미지`}
                 />
                 {user?.photoURL && loadedImageUrl !== user?.photoURL && (
                   <img
