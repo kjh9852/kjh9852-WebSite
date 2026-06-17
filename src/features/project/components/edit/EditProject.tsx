@@ -49,7 +49,7 @@ export default function EditProject({ project }: EditProjectProps) {
           closeProject();
         },
         onError: (error: Error) => {
-          const message = error.message ?? '수정에 실패하였습니다.';
+          const message = error.message || '수정에 실패하였습니다.';
           showToast({ type: 'warning', message: message });
         },
       }

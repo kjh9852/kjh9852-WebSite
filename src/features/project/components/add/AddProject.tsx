@@ -41,8 +41,9 @@ export default function AddProject() {
         showToast({ type: 'success', message: '프로젝트가 등록되었습니다.' });
         closeProject();
       },
-      onError: () => {
-        showToast({ type: 'warning', message: '업로드에 실패하였습니다.' });
+      onError: (error) => {
+        const message = error.message || '등록에 실패하였습니다.';
+        showToast({ type: 'warning', message: message });
       },
     });
   };

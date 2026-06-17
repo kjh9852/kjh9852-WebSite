@@ -20,45 +20,63 @@ import {
 } from '../schemas/project.schema';
 import type { EditProjectVariables } from '../types';
 
+const handleProjectError = (error: unknown, defaultMessage: string) => {
+  if (error instanceof FirebaseError) {
+    const message = FIREBASE_FIRESTORE_MESSAGES[error.code] || defaultMessage;
+    return new Error(message);
+  }
+  if (error instanceof Error) {
+    return error;
+  }
+  return new Error(defaultMessage);
+};
+
 export async function uploadProject(data: ProjectFormValues): Promise<void> {
-  await addDoc(collection(db, 'project'), {
-    ...data,
-  });
+  try {
+    await addDoc(collection(db, 'project'), {
+      ...data,
+    });
+  } catch (error: unknown) {
+    throw handleProjectError(error, '프로젝트 업로드 중 오류가 발생했습니다.');
+  }
 }
 
 export async function getProjects(
   category: string = 'all'
 ): Promise<Project[]> {
-  let q;
-  if (category === 'all') {
-    q = query(collection(db, 'project'));
-  } else {
-    q = query(collection(db, 'project'), where('category', '==', category));
-  }
-  const response = await getDocs(q);
-  const returnData = response.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Project[];
+  try {
+    let q;
+    if (category === 'all') {
+      q = query(collection(db, 'project'));
+    } else {
+      q = query(collection(db, 'project'), where('category', '==', category));
+    }
+    const response = await getDocs(q);
+    const returnData = response.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Project[];
 
-  return returnData;
+    return returnData;
+  } catch (error: unknown) {
+    throw handleProjectError(
+      error,
+      '프로젝트 리스트를 불러오는 중 오류가 발생했습니다.'
+    );
+  }
 }
 
 export async function getProject(projectId: string): Promise<Project | null> {
-  const projectRef = doc(db, 'project', projectId);
   try {
+    const projectRef = doc(db, 'project', projectId);
     const response = await getDoc(projectRef);
-    if (response.exists()) {
-      console.log(response.data());
-      return { id: response.id, ...response.data() } as Project;
-    }
-    return null;
+    if (!response.exists()) return null;
+    return { id: response.id, ...response.data() } as Project;
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_FIRESTORE_MESSAGES[error.code];
-      throw new Error(message);
-    }
-    throw error;
+    throw handleProjectError(
+      error,
+      '프로젝트를 불러오는 중 오류가 발생했습니다.'
+    );
   }
 }
 
@@ -66,29 +84,19 @@ export async function editProject({
   projectId,
   updateProject,
 }: EditProjectVariables): Promise<void> {
-  const projectRef = doc(db, 'project', projectId);
   try {
+    const projectRef = doc(db, 'project', projectId);
     await updateDoc(projectRef, updateProject);
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_FIRESTORE_MESSAGES[error.code];
-      console.log(message);
-      throw new Error(message);
-    }
-    throw error;
+    throw handleProjectError(error, '프로젝트 수정 중 오류가 발생했습니다.');
   }
 }
 
 export async function deleteProject(projectId: string): Promise<void> {
-  const projectRef = doc(db, 'project', projectId);
   try {
+    const projectRef = doc(db, 'project', projectId);
     await deleteDoc(projectRef);
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = FIREBASE_FIRESTORE_MESSAGES[error.code];
-      console.log(message);
-      throw new Error(message);
-    }
-    throw error;
+    throw handleProjectError(error, '프로젝트 삭제 중 오류가 발생했습니다.');
   }
 }

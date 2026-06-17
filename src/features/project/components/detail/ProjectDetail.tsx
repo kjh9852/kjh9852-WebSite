@@ -44,7 +44,7 @@ export default function ProjectDetail({
         closeProject();
       },
       onError: (error: Error) => {
-        const message = error.message ?? '삭제에 실패하였습니다.';
+        const message = error.message || '삭제에 실패하였습니다.';
         showToast({ type: 'warning', message: message });
       },
     });
