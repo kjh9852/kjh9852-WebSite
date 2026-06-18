@@ -32,7 +32,7 @@ export default function ProjectList({
               <img
                 loading="lazy"
                 src={item.imageURL ? item.imageURL : NoneImage}
-                alt="썸네일"
+                alt={`${item.title} 미리보기`}
               />
             </div>
             <h2 className={styles.title}>{item.title}</h2>

@@ -17,10 +17,11 @@ export default function ProjectSheet({
 }: {
   projectId?: string | null;
 }) {
+  const type = useProjectStore((state) => state.type);
+  const closeProject = useProjectStore((state) => state.closeProject);
   const container = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const { data: project, isPending } = useGetProject(projectId ?? '');
-  const { type, closeProject } = useProjectStore();
   const [projectOpen, toggleProject, setProjectOpen] = useToggle(false);
 
   useEffect(() => {

@@ -22,13 +22,26 @@ interface ProjectFormProps {
   isEdit?: boolean;
 }
 
+const PROJECT_TYPE = [
+  {
+    label: '퍼블리싱',
+    value: '퍼블리싱',
+  },
+  {
+    label: '프론트엔드',
+    value: '프론트엔드',
+  },
+] as const;
+
+type ProjectCategoryType = (typeof PROJECT_TYPE)[number]['value'];
+
 export default function ProjectForm({
   onUpdateProject,
   form,
   isPending,
   isEdit,
 }: ProjectFormProps) {
-  const [modalOpen, toggleModal, setModalOpen] = useToggle(false);
+  const [menuOpen, toggleMenu, setMenuOpen] = useToggle(false);
   const [isPreview, setIsPreview] = useState(false);
 
   const title = useWatch({
@@ -45,19 +58,6 @@ export default function ProjectForm({
     e.preventDefault();
     setIsPreview((prev) => !prev);
   };
-
-  const PROJECT_TYPE = [
-    {
-      label: '퍼블리싱',
-      value: '퍼블리싱',
-    },
-    {
-      label: '프론트엔드',
-      value: '프론트엔드',
-    },
-  ] as const;
-
-  type ProjectCategoryType = (typeof PROJECT_TYPE)[number]['value'];
 
   return (
     <div className={styles.projectFormContainer}>
@@ -86,17 +86,18 @@ export default function ProjectForm({
                   render={({ field }) => (
                     <div className={styles.categoryDropdown}>
                       <Dropdown<ProjectCategoryType>
-                        isOpen={modalOpen}
-                        setOpen={setModalOpen}
+                        isOpen={menuOpen}
+                        setOpen={setMenuOpen}
                         dropdownList={PROJECT_TYPE}
                         positionStyle={{ top: '50px' }}
+                        value={field.value as ProjectCategoryType}
                         onSelect={(value) => {
                           if (!value) return;
                           field.onChange(value);
                         }}
                       >
                         <span
-                          onClick={toggleModal}
+                          onClick={toggleMenu}
                           className={styles.selectMenu}
                         >
                           {field.value || '타입선택'}

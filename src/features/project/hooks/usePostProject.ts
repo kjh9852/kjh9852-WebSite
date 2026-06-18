@@ -1,10 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { uploadProject } from '@/features/project/api/project';
-import { type ProjectFormValues } from '@/features/project/schemas/project.schema';
+import { uploadProject } from '../api/project';
+import { type ProjectFormValues } from '../schemas/project.schema';
 
 export function usePostProject() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: ProjectFormValues) => uploadProject(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['project'],
+      });
+    },
   });
 }

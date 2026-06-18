@@ -9,6 +9,17 @@ import { useModalStore } from '@/store/modalStore';
 
 import styles from './Header.module.scss';
 
+const USER_DROP_DOWN = [
+  {
+    label: '프로필 설정',
+    value: 'profile',
+  },
+  {
+    label: '로그아웃',
+    value: 'logout',
+  },
+] as const;
+
 export default function Header() {
   const { data: user, isPending } = useAuth();
   const openModal = useModalStore((state) => state.openModal);
@@ -21,17 +32,6 @@ export default function Header() {
     user?.photoURL && loadedImageUrl === user.photoURL
       ? user.photoURL
       : defaultProfile;
-
-  const USER_DROP_DOWN = [
-    {
-      label: '프로필 설정',
-      value: 'profile',
-    },
-    {
-      label: '로그아웃',
-      value: 'logout',
-    },
-  ] as const;
 
   return (
     <header className={styles.header}>
@@ -60,7 +60,7 @@ export default function Header() {
                   className={styles.profileIcon}
                   loading="lazy"
                   src={displayProfileImage}
-                  alt="프로필 이미지"
+                  alt={`${user?.displayName} 프로필 이미지`}
                 />
                 {user?.photoURL && loadedImageUrl !== user?.photoURL && (
                   <img

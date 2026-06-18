@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 import { useProjectStore } from '@/store/projectStore';
@@ -9,18 +8,14 @@ import { extractThumbnail } from '@/utils/image';
 import { useEditProject } from '../../hooks/useEditProject';
 import {
   projectSchema,
-  type Project,
   type ProjectFormValues,
 } from '../../schemas/project.schema';
+import type { EditProjectProps } from '../../types';
 import ProjectForm from '../form/ProjectForm';
 
-interface EditProjectProps {
-  project: Project | null | undefined;
-}
-
 export default function EditProject({ project }: EditProjectProps) {
-  const { showToast } = useToastStore();
-  const { closeProject } = useProjectStore();
+  const showToast = useToastStore((state) => state.showToast);
+  const closeProject = useProjectStore((state) => state.closeProject);
   const { mutate: editProject, isPending } = useEditProject();
 
   const form = useForm<ProjectFormValues>({
@@ -33,7 +28,6 @@ export default function EditProject({ project }: EditProjectProps) {
     },
     mode: 'onChange',
   });
-  const queryClient = useQueryClient();
 
   if (!project) {
     return null;
@@ -48,18 +42,14 @@ export default function EditProject({ project }: EditProjectProps) {
     };
 
     editProject(
-      { projectId: project.id, data: uploadData },
+      { projectId: project.id, updateProject: uploadData },
       {
         onSuccess: () => {
-          console.log('업로드');
-          queryClient.invalidateQueries({
-            queryKey: ['project'],
-          });
           showToast({ type: 'success', message: '프로젝트가 수정되었습니다.' });
           closeProject();
         },
         onError: (error: Error) => {
-          const message = error.message ?? '수정에 실패하였습니다.';
+          const message = error.message || '수정에 실패하였습니다.';
           showToast({ type: 'warning', message: message });
         },
       }

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getProject } from '@/features/project/api/project';
-import { type Project } from '@/features/project/schemas/project.schema';
+import { getProject } from '../api/project';
+import { type Project } from '../schemas/project.schema';
 
 export function useGetProject(projectId: string) {
   return useQuery<Project | null>({
