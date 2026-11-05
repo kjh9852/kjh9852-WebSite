@@ -65,7 +65,7 @@ export default function Hero() {
       className={`${styles.mainTitle} container`}
     >
       <div className={`${styles.titleAni} titleAni`}>
-        <div className="mainBg">
+        <div className={`${styles.landscape} mainBg`}>
           <div className={`${styles.backLight01} light01`}>
             <img src={BackLight01} alt="light01" />
           </div>
@@ -89,8 +89,10 @@ export default function Hero() {
           </div>
           <div className={`${styles.bgStar} bgStar`}></div>
           <div className={`${styles.bgTop} bgTop`}></div>
-          <div className={`${styles.mountainBlack} mountainBlack`}>
-            <HeroSvg />
+          <div className={styles.mountainBlackPosition}>
+            <div className={`${styles.mountainBlack} mountainBlack`}>
+              <HeroSvg />
+            </div>
           </div>
         </div>
       </div>
