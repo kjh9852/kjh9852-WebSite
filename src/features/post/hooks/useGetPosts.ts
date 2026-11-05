@@ -5,9 +5,7 @@ import type { Post } from '../types';
 export function useGetPosts() {
   return useQuery<Post[]>({
     queryKey: ['post'],
-    queryFn: () => {
-      return [] as Post[];
-    },
+    queryFn: () => [], // onSnapshot에서 setQueryData로 관리
     initialData: [],
     staleTime: Infinity,
   });
