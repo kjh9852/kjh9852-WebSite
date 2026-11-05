@@ -2,19 +2,19 @@ import { FirebaseError } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
   addDoc,
-  getDoc,
-  updateDoc,
+  collection,
   deleteDoc,
   doc,
-  collection,
+  getDoc,
   serverTimestamp,
+  updateDoc,
 } from 'firebase/firestore';
 
 import { db } from '@/api/firebase';
 import { FIREBASE_FIRESTORE_MESSAGES } from '@/constants/firebaseMessage';
 
 import type { PostFormValues } from '../schemas/post.schema';
-import type { Post, EditPost } from '../types';
+import type { EditPost, Post } from '../types';
 
 const handlePostError = (error: unknown, defaultMessage: string) => {
   if (error instanceof FirebaseError) {
