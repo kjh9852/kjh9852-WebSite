@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { onSnapshot, collection, orderBy, query } from 'firebase/firestore';
-import { useState, useEffect } from 'react';
+import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
 import { db } from '@/api/firebase';
 import { useToastStore } from '@/store/toastStore';
@@ -18,14 +18,12 @@ export function usePostSubscription() {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const posts = snapshot.docs.map(
-          (doc) =>
-            ({
-              id: doc.id,
-              ...doc.data(),
-              createdAt: doc.data().createdAt?.toDate().toISOString(),
-            }) as Post
-        );
+        const posts = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate().toISOString(),
+        })) as Post[];
+
         queryClient.setQueryData(['post'], posts);
 
         setInitialized(true);

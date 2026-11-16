@@ -1,6 +1,6 @@
 import gsap from 'gsap';
-import { useState, useEffect, useRef } from 'react';
 import type { SetStateAction } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import useClickOutside from '@/hooks/useClickOutside';
 
@@ -32,7 +32,7 @@ export default function Dropdown<T>({
   const container = useRef<HTMLDivElement | null>(null);
   const [listRender, setListRender] = useState(isOpen);
   const dropdownRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
-  console.log(onSelect);
+
   gsap.config({
     nullTargetWarn: false,
   });
