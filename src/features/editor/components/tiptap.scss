@@ -296,6 +296,7 @@ p.is-editor-empty:first-child::before {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     width: 35px;
     height: 35px;
     font-size: 18px;
@@ -355,13 +356,6 @@ p.is-editor-empty:first-child::before {
       }
     }
   }
-}
-
-.toolbar {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 2;
 }
 
 .editor-content {

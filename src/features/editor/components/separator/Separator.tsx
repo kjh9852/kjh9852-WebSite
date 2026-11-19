@@ -4,8 +4,8 @@ export default function Separator() {
       style={{
         width: '1px',
         height: '25px',
-        margin: '0 8px',
         background: '#f1f1f1',
+        flexShrink: 0,
       }}
     />
   );

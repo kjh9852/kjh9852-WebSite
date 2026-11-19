@@ -7,14 +7,14 @@ import clsx from 'clsx';
 import {
   useController,
   type Control,
-  type Path,
   type FieldValues,
+  type Path,
 } from 'react-hook-form';
 
 import { IconLink, ImageLink } from '@/features/editor/extensions';
 
-import Toolbar from './toolbar/Toolbar';
 import './tiptap.scss';
+import Toolbar from './toolbar/Toolbar';
 
 interface TiptapEditorProps<T extends FieldValues> {
   control: Control<T>;
@@ -60,9 +60,7 @@ export default function Tiptap<T extends FieldValues>({
 
   return (
     <div className="editor-mode">
-      <div className="toolbar">
-        <Toolbar editor={editor!} />
-      </div>
+      <Toolbar editor={editor!} />
       <div className="editor-content">
         {children}
         <EditorContent editor={editor} className={clsx('content')} />

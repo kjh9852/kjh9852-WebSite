@@ -1,0 +1,23 @@
+.toolbar {
+  position: sticky;
+  top: 0;
+  overflow-x: scroll;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  scrollbar-width: none;
+  background: #fff;
+  z-index: 2;
+
+  @media (max-width: 767px) {
+    padding: 6px 24px;
+    justify-content: flex-start;
+  }
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
