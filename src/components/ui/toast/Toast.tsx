@@ -1,5 +1,5 @@
 import gsap from 'gsap';
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { CheckIcon, CloseIcon } from '@/components/ui/icons';
 
@@ -13,10 +13,10 @@ export default function Toast({
   message,
   hideToast,
 }: {
-  id: string;
+  id: number;
   type: ToastType;
   message: string;
-  hideToast: (id: string) => void;
+  hideToast: (id: number) => void;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const hideToastRef = useRef(hideToast);
@@ -80,11 +80,7 @@ export default function Toast({
   };
 
   return (
-    <div
-      ref={container}
-      id={id}
-      className={`${styles.container} ${styles[type]}`}
-    >
+    <div ref={container} className={`${styles.container} ${styles[type]}`}>
       <div className={styles.wrapper}>
         <div className={styles.contentContainer}>
           {iconType}

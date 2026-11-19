@@ -1,7 +1,7 @@
 export type ToastType = 'warning' | 'success';
 
 export type ToastItem = {
-  id: string;
+  id: number;
   type: ToastType;
   message: string;
 };
