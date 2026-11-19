@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as *;
+
 .buttonContainer {
   display: flex;
   flex-direction: row;
@@ -7,8 +9,6 @@
 }
 
 .loadingContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   min-height: 300px;
 }

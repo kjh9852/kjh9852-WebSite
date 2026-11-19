@@ -1,5 +1,13 @@
+@use '@/styles/mixins' as *;
+
 .customSwiper {
   padding: 36px 0;
+
+  @media (max-width: 767px) {
+    :global(.swiper-slide) {
+      @include flex-center;
+    }
+  }
 }
 
 .emptyWrapper {

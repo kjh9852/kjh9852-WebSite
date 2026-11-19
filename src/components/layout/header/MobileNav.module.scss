@@ -1,9 +1,9 @@
+@use '@/styles/mixins' as *;
+
 .menuButton {
   position: relative;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
 
   width: 40px;
   height: 40px;

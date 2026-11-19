@@ -61,7 +61,7 @@ export default function SignIn() {
               isPassword
             />
           </div>
-          <div className={styles.buttonContainer}>
+          <div>
             <Button
               size="full"
               variant="submit"

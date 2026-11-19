@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as *;
+
 .container {
   position: relative;
   padding: 20px 28px;
@@ -11,9 +13,7 @@
 }
 
 .loadingContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   min-height: 300px;
 }
 

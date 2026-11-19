@@ -1,8 +1,4 @@
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@use '@/styles/mixins' as *;
 
 .skillInfo {
   @include flex-center;
@@ -10,6 +6,10 @@
   flex-wrap: wrap;
   gap: 50px 120px;
   transform: translateY(500px);
+
+  @media (max-width: 767px) {
+    gap: 52px 40px;
+  }
 }
 
 .chart {
@@ -21,6 +21,11 @@
   border-radius: 50%;
   opacity: 1;
 
+  @media (max-width: 767px) {
+    width: 130px;
+    height: 130px;
+  }
+
   .circle {
     display: flex;
     overflow: hidden;
@@ -31,6 +36,11 @@
     border-radius: 50%;
     -webkit-border-radius: 50%;
     cursor: pointer;
+
+    @media (max-width: 767px) {
+      width: 130px;
+      height: 130px;
+    }
   }
 
   .blue {
@@ -60,12 +70,22 @@
   height: 100%;
   transform: translate(0px, 200px);
 
+  @media (max-width: 767px) {
+    width: 130px;
+    height: 130px;
+  }
+
   .skillText {
     display: flex;
     justify-content: center;
     padding-top: 10px;
     font-size: 22px;
     font-weight: 400;
+
+    @media (max-width: 767px) {
+      padding-top: 0;
+      font-size: 16px;
+    }
   }
 
   svg {
@@ -86,6 +106,11 @@
       width: 220px;
       height: 220px;
       z-index: 1;
+
+      @media (max-width: 767px) {
+        width: 130px;
+        height: 130px;
+      }
     }
   }
 }
@@ -96,6 +121,11 @@
   height: 220px;
   background: url('@/assets/images/bubble_chart.png') no-repeat;
   background-size: cover;
+
+  @media (max-width: 767px) {
+    width: 130px;
+    height: 130px;
+  }
 }
 
 @keyframes wave {
