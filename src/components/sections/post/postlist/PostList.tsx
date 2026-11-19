@@ -24,15 +24,27 @@ export default function PostList({
   return (
     <Swiper
       className={styles.customSwiper}
+      slidesPerView="auto"
       onSliderFirstMove={() => setSwiperMoving(true)}
       onTransitionEnd={() => setSwiperMoving(false)}
       threshold={10}
       preventClicks={true}
       preventClicksPropagation={true}
       touchStartPreventDefault={false}
-      height={1000}
-      spaceBetween={50}
-      slidesPerView={4}
+      breakpoints={{
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1200: {
+          slidesPerView: 3,
+          spaceBetween: 24,
+        },
+        1600: {
+          slidesPerView: 4,
+          spaceBetween: 24,
+        },
+      }}
     >
       {postList?.map((post) => (
         <SwiperSlide key={post.id}>

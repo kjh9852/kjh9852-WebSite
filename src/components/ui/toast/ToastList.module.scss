@@ -3,6 +3,8 @@
   flex-direction: column-reverse;
   position: fixed;
   gap: 6px;
+
+  width: min(380px, calc(100% - 20px));
   bottom: 10px;
   left: 10px;
   z-index: 56;

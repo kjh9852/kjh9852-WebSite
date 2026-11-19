@@ -15,6 +15,8 @@ import Separator from '@/features/editor/components/separator/Separator';
 import HeadingDropdown from '@/features/editor/components/toolbar/HeadingDropdown';
 import ListDropDown from '@/features/editor/components/toolbar/ListDropdown';
 
+import styles from './Toolbar.module.scss';
+
 export default function Toolbar({ editor }: { editor: Editor }) {
   if (!editor) return null;
 
@@ -35,91 +37,99 @@ export default function Toolbar({ editor }: { editor: Editor }) {
   };
 
   return (
-    <div className="bubble-menu">
-      <HeadingDropdown editor={editor} />
-      <ListDropDown editor={editor} />
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-        className={`toolbar-btn ${editor.isActive('blockquote') ? 'is-active' : ''}`}
-      >
-        <img src={blockQuoteIcon} />
-      </button>
+    <div className={`${styles.toolbar} bubble-menu`}>
+      <div className={styles.group}>
+        <HeadingDropdown editor={editor} />
+        <ListDropDown editor={editor} />
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBlockquote().run()}
+          className={`toolbar-btn ${editor.isActive('blockquote') ? 'is-active' : ''}`}
+        >
+          <img src={blockQuoteIcon} />
+        </button>
+      </div>
       <Separator />
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`toolbar-btn ${editor.isActive('bold') ? 'is-active' : ''}`}
-      >
-        <img src={boldIcon} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={`toolbar-btn ${
-          editor.isActive('italic') ? 'is-active' : ''
-        }`}
-      >
-        <img src={italicIcon} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-        className={`toolbar-btn ${editor.isActive('codeBlock') ? 'is-active' : ''}`}
-      >
-        <img src={codeIcon} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={`toolbar-btn ${editor.isActive('underline') ? 'is-active' : ''}`}
-      >
-        <img src={underLineIcon} />
-      </button>
+      <div className={styles.group}>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          className={`toolbar-btn ${editor.isActive('bold') ? 'is-active' : ''}`}
+        >
+          <img src={boldIcon} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          className={`toolbar-btn ${
+            editor.isActive('italic') ? 'is-active' : ''
+          }`}
+        >
+          <img src={italicIcon} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={`toolbar-btn ${editor.isActive('codeBlock') ? 'is-active' : ''}`}
+        >
+          <img src={codeIcon} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          className={`toolbar-btn ${editor.isActive('underline') ? 'is-active' : ''}`}
+        >
+          <img src={underLineIcon} />
+        </button>
+      </div>
       <Separator />
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('left').run()}
-        className={`toolbar-btn ${editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}`}
-      >
-        <img src={leftAlignIcon} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('center').run()}
-        className={`toolbar-btn ${editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}`}
-      >
-        <img src={centerAlignIcon} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('right').run()}
-        className={`toolbar-btn ${editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}`}
-      >
-        <img src={rightAlignIcon} />
-      </button>
-      <button
-        type="button"
-        onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-        className={`toolbar-btn ${editor.isActive({ textAlign: 'justify' }) ? 'is-active' : ''}`}
-      >
-        <img src={justifyAlignIcon} />
-      </button>
+      <div className={styles.group}>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={`toolbar-btn ${editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}`}
+        >
+          <img src={leftAlignIcon} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={`toolbar-btn ${editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}`}
+        >
+          <img src={centerAlignIcon} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          className={`toolbar-btn ${editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}`}
+        >
+          <img src={rightAlignIcon} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+          className={`toolbar-btn ${editor.isActive({ textAlign: 'justify' }) ? 'is-active' : ''}`}
+        >
+          <img src={justifyAlignIcon} />
+        </button>
+      </div>
       <Separator />
-      <button
-        type="button"
-        className={`toolbar-btn ${editor.isActive('image') ? 'is-active' : ''}`}
-        onClick={() => document.getElementById('image-upload')?.click()}
-      >
-        <img src={imageIcon} />
-      </button>
-      <input
-        id="image-upload"
-        type="file"
-        accept="image/*"
-        style={{ display: 'none' }}
-        onChange={handleImageUpload}
-      />
+      <div className={styles.group}>
+        <button
+          type="button"
+          className={`toolbar-btn ${editor.isActive('image') ? 'is-active' : ''}`}
+          onClick={() => document.getElementById('image-upload')?.click()}
+        >
+          <img src={imageIcon} />
+        </button>
+        <input
+          id="image-upload"
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleImageUpload}
+        />
+      </div>
     </div>
   );
 }

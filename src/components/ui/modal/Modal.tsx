@@ -1,6 +1,6 @@
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { MODAL_ANIMATION } from '@/animations/modalAnimation';
 import { SignIn, SignUp } from '@/features/auth';
@@ -111,7 +111,10 @@ export default function Modal() {
         className={styles.backDrop}
         onClick={handleClose}
       />
-      <div ref={modalRef} className={styles.modal}>
+      <div
+        ref={modalRef}
+        className={`${styles.modal} ${type === 'detail' ? styles.postDetail : ''}`}
+      >
         {ModalComponent && <ModalComponent />}
       </div>
     </div>

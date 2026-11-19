@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { uploadImage } from '@/api/uploadImage';
@@ -155,7 +155,7 @@ export default function SignUp() {
               showValidationIcon
             />
           </div>
-          <div className={styles.buttonContainer}>
+          <div>
             <Button
               size="full"
               variant="submit"

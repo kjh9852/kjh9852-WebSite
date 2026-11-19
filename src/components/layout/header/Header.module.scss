@@ -15,6 +15,14 @@
     opacity: 0.3;
     z-index: -1;
   }
+
+  @media (max-width: 767px) {
+    backdrop-filter: none;
+
+    &::before {
+      background: transparent;
+    }
+  }
 }
 
 .inner {
@@ -24,11 +32,47 @@
   max-width: 1290px;
   height: 100%;
   margin: 0 auto;
+  padding: 0 24px;
+
+  @media (max-width: 767px) {
+    padding: 0 12px;
+  }
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+
+  flex: 1;
+
+  height: 100%;
+
+  @media (max-width: 767px) {
+    display: none;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.mobileNav {
+  display: none;
+  height: 100%;
+
+  @media (max-width: 767px) {
+    display: block;
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .nav {
   width: 550px;
   height: 100%;
+
+  @media (max-width: 767px) {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .loginButton {
@@ -57,4 +101,11 @@
 .profileName {
   font-size: 1.6rem;
   font-weight: 500;
+}
+
+.userProfile {
+  display: block;
+  @media (max-width: 767px) {
+    display: none;
+  }
 }

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import type { ToastType, ToastItem } from '@/components/ui/toast/ToastType';
+import type { ToastItem, ToastType } from '@/components/ui/toast/ToastType';
 
 type ToastStoreType = {
   type: ToastType;
@@ -8,8 +8,10 @@ type ToastStoreType = {
   message: string;
   isOpen: boolean;
   showToast: (toast: Omit<ToastItem, 'id'>) => void;
-  hideToast: (id: string) => void;
+  hideToast: (id: number) => void;
 };
+
+let nextToastId = 0;
 
 export const useToastStore = create<ToastStoreType>((set) => ({
   type: 'warning',
@@ -18,7 +20,8 @@ export const useToastStore = create<ToastStoreType>((set) => ({
   isOpen: false,
 
   showToast: ({ type, message }) => {
-    const id = crypto.randomUUID();
+    const id = ++nextToastId;
+
     set((state) => {
       const MAX_TOAST_LIMIT = 3;
 

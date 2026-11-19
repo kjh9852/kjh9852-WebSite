@@ -22,12 +22,11 @@ export default function ProjectList({
   return (
     <>
       {projectList?.map((item) => (
-        <article
-          onClick={() => openProject('detail', item.id as string)}
-          key={item.id}
-          className={styles.projectList}
-        >
-          <button className={styles.projectButton}>
+        <article key={item.id} className={styles.projectList}>
+          <button
+            className={styles.projectButton}
+            onClick={() => openProject('detail', item.id as string)}
+          >
             <div className={styles.projectImage}>
               <img
                 loading="lazy"

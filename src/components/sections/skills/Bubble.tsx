@@ -64,7 +64,11 @@ export default function Bubble() {
           y: 0,
           ease: 'power3.out',
         })
-        .to(`.${styles.water}`, { y: 80 }, '<0.5');
+        .to(
+          `.${styles.water}`,
+          { y: () => (window.innerWidth <= 767 ? 55 : 80) },
+          '<0.5'
+        );
     },
     { scope: container }
   );

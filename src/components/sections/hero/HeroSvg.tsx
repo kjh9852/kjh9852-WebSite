@@ -8,6 +8,7 @@ export default function HeroSvg() {
       x="0px"
       y="0px"
       viewBox="0 0 959.6 1030.6"
+      preserveAspectRatio="xMidYMax slice"
     >
       <path
         d="M960,128c0,300.8,0,601.7,0,902.5c-320,0-640,0-960,0C0,777.3,0,524.2,0,271c3.6,0,7.1,0,10.5,0c0.3-0.8,0.6-1.3,0.9-1.9

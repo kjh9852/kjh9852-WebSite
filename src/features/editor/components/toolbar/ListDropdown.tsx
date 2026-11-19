@@ -55,6 +55,7 @@ export default function ListDropDown({ editor }: { editor: Editor }) {
 
   return (
     <Dropdown
+      portal
       isOpen={modalOpen}
       setOpen={setModalOpen}
       dropdownList={ORDER_LIST}

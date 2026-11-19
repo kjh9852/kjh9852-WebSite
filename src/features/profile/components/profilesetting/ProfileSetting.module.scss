@@ -3,22 +3,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  margin-top: 44px;
-  padding-bottom: 44px;
+  gap: 24px;
 }
 
 .formContainer {
   display: flex;
   flex-direction: column;
-  margin-top: 32px;
-  max-width: 380px;
-  min-width: 320px;
+  gap: 16px;
   width: 100%;
   height: 100%;
-}
-
-.inputContainer {
-  margin-bottom: 16px;
 }
 
 .title {
@@ -72,20 +65,4 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 24px;
-}
-
-.loginButton {
-  width: 100%;
-  padding: 12px 14px;
-  font-size: 18px;
-  font-weight: 500;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #7eedda;
-
-  &:disabled {
-    color: #555;
-    background: #ededed;
-  }
 }
