@@ -63,6 +63,7 @@ export default function HeadingDropdown({ editor }: { editor: Editor }) {
 
   return (
     <Dropdown<HeadingValue>
+      portal
       isOpen={modalOpen}
       setOpen={setModalOpen}
       dropdownList={HEADING_LIST}

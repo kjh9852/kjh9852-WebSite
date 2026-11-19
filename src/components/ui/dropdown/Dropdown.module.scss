@@ -1,7 +1,5 @@
 .dropdownContainer {
   position: relative;
-  top: 0;
-  right: 0;
   z-index: 1;
 }
 
@@ -10,6 +8,13 @@
   top: 30px;
   right: 0;
   width: max-content;
+
+  &.portal {
+    position: fixed;
+    top: auto;
+    right: auto;
+    z-index: 1000;
+  }
 }
 
 .menu {
