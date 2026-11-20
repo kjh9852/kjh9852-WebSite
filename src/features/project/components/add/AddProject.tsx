@@ -24,6 +24,7 @@ export default function AddProject() {
       description: '',
       category: '',
       imageURL: '',
+      tags: [],
     },
     mode: 'onChange',
   });

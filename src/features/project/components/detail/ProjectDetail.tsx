@@ -1,4 +1,4 @@
-import { Dropdown, DotMenu, Loading } from '@/components/ui';
+import { DotMenu, Dropdown, Loading } from '@/components/ui';
 import { TiptapViewer } from '@/features/editor';
 import { useProjectStore } from '@/store/projectStore';
 import { useToastStore } from '@/store/toastStore';
@@ -54,6 +54,7 @@ export default function ProjectDetail({
     <TiptapViewer
       title={project?.title ?? ''}
       description={project?.description ?? ''}
+      tags={project?.tags ?? []}
       actions={
         <Dropdown
           dropdownList={PROJECT_MENU}

@@ -10,10 +10,12 @@ import styles from './TiptapViewer.module.scss';
 export default function TiptapViewer({
   title,
   description,
+  tags,
   actions,
 }: {
   title?: string;
   description: string;
+  tags?: string[];
   actions?: React.ReactNode;
 }) {
   const editor = useEditor({
@@ -45,6 +47,15 @@ export default function TiptapViewer({
         {actions && actions}
       </div>
       <div className="view-content">
+        {tags && (
+          <div className={styles.tagList}>
+            {tags?.map((item) => (
+              <span className={styles.tagItem} key={item}>
+                {item}
+              </span>
+            ))}
+          </div>
+        )}
         <EditorContent className="sheet" editor={editor} />
       </div>
     </div>
