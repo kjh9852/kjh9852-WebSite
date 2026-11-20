@@ -45,14 +45,16 @@ export default function ProjectSheet({
     <div className={styles.projectSheet} ref={container}>
       <div onClick={closeProject} className={styles.projectSheetBackDrop} />
       <div className={styles.projectSheetPanel} ref={contentRef}>
-        <div className={styles.projectHeader}>
-          <button
-            className={styles.projectSheetCloseButton}
-            onClick={closeProject}
-          >
-            <CloseIcon />
-          </button>
-        </div>
+        {type === 'detail' && (
+          <div className={styles.projectHeader}>
+            <button
+              className={styles.projectSheetCloseButton}
+              onClick={closeProject}
+            >
+              <CloseIcon />
+            </button>
+          </div>
+        )}
         {type === 'add' && <AddProject />}
         {type === 'detail' && (
           <ProjectDetail
