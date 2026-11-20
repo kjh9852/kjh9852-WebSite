@@ -30,6 +30,7 @@ export const projectSchema = z.object({
   description: descriptionSchema,
   category: categorySchema,
   imageURL: z.string().optional(),
+  tags: z.array(z.string()),
 });
 
 export type ProjectFormValues = z.infer<typeof projectSchema>;

@@ -4,12 +4,12 @@ export const PROJECT_CATEGORY = [
     type: 'all',
   },
   {
-    name: '퍼블리싱',
-    type: '퍼블리싱',
+    name: '개인 프로젝트',
+    type: '개인 프로젝트',
   },
   {
-    name: '프론트엔드',
-    type: '프론트엔드',
+    name: '팀 프로젝트',
+    type: '팀 프로젝트',
   },
 ] as const;
 

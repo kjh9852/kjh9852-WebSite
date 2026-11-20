@@ -16,3 +16,20 @@
   font-size: 24px;
   font-weight: 500;
 }
+
+.tagList {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+
+  padding: 8px 30px;
+}
+
+.tagItem {
+  padding: 6px 12px;
+
+  border-radius: 16px;
+  background-color: #ededed;
+  color: #444;
+}
