@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useFormContext, type RegisterOptions } from 'react-hook-form';
 
-import { CloseIcon, CheckIcon, PasswordIcon } from '@/components/ui/icons';
+import { CheckIcon, CloseIcon, PasswordIcon } from '@/components/ui/icons';
 
 import styles from './Input.module.scss';
 
@@ -18,6 +18,7 @@ type InputProps = {
   showErrorMessage?: boolean;
   className?: string | undefined;
   inputClassName?: string | undefined;
+  registerField?: boolean;
   registerOptions?: RegisterOptions;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
@@ -33,6 +34,7 @@ export default function Input({
   showErrorMessage = true,
   className,
   inputClassName,
+  registerField = true,
   registerOptions,
   ...rest
 }: InputProps) {
@@ -76,7 +78,7 @@ export default function Input({
           type={isPassword ? (isVisible ? 'text' : 'password') : type}
           id={id}
           placeholder={placeHolder}
-          {...register(id, registerOptions)}
+          {...(registerField ? register(id, registerOptions) : {})}
           {...rest}
         />
         <div className={styles.fieldIconContainer}>

@@ -11,6 +11,7 @@ import { Button, CloseIcon, Dropdown, Input, Loading } from '@/components/ui';
 import { Tiptap, TiptapViewer } from '@/features/editor';
 import useToggle from '@/hooks/useToggle';
 import { useProjectStore } from '@/store/projectStore';
+import { useToastStore } from '@/store/toastStore';
 
 import { type ProjectFormValues } from '../../schemas/project.schema';
 
@@ -34,6 +35,9 @@ const PROJECT_TYPE = [
   },
 ] as const;
 
+const MAX_TAGS = 6;
+const MAX_TAG_LENGTH = 15;
+
 type ProjectCategoryType = (typeof PROJECT_TYPE)[number]['value'];
 
 export default function ProjectForm({
@@ -42,6 +46,7 @@ export default function ProjectForm({
   isPending,
   isEdit,
 }: ProjectFormProps) {
+  const showToast = useToastStore((state) => state.showToast);
   const closeProject = useProjectStore((state) => state.closeProject);
   const [menuOpen, toggleMenu, setMenuOpen] = useToggle(false);
   const [isPreview, setIsPreview] = useState(false);
@@ -72,7 +77,28 @@ export default function ProjectForm({
     e.preventDefault();
 
     const tag = tagValue.trim();
-    if (!tag || tags.includes(tag)) return;
+    if (tags.includes(tag)) {
+      showToast({
+        type: 'warning',
+        message: '이미 등록된 태그입니다.',
+      });
+      return;
+    }
+
+    if (tags.length >= MAX_TAGS) {
+      showToast({
+        type: 'warning',
+        message: `태그는 최대 ${MAX_TAGS}까지 입력할 수 있습니다.`,
+      });
+      return;
+    }
+    if (tag.length > MAX_TAG_LENGTH) {
+      showToast({
+        type: 'warning',
+        message: `태그는 최대 ${MAX_TAG_LENGTH}자까지 입력할 수 있습니다.`,
+      });
+      return;
+    }
 
     form.setValue('tags', [...tags, tag], {
       shouldDirty: true,
@@ -101,7 +127,7 @@ export default function ProjectForm({
           onSubmit={form.handleSubmit(onUpdateProject)}
         >
           {isPreview ? (
-            <TiptapViewer title={title} description={description} />
+            <TiptapViewer title={title} description={description} tags={tags} />
           ) : (
             <Tiptap control={form.control} name="description">
               <div className={styles.projectHeader}>
@@ -151,7 +177,7 @@ export default function ProjectForm({
                           onClick={() => handleRemoveTag(item)}
                           type="button"
                         >
-                          <CloseIcon />
+                          <CloseIcon color="#a8a8a8" />
                         </button>
                       </div>
                     ))}
@@ -167,6 +193,7 @@ export default function ProjectForm({
                   placeHolder="태그를 입력해주세요."
                   onKeyDown={handleAddTag}
                   value={tagValue}
+                  registerField={false}
                   onChange={(e) => setTagValue(e.target.value)}
                 />
               </div>

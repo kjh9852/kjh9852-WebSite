@@ -25,6 +25,7 @@ export default function EditProject({ project }: EditProjectProps) {
       description: project?.description ?? '',
       category: project?.category ?? '',
       imageURL: project?.imageURL ?? '',
+      tags: project?.tags ?? [],
     },
     mode: 'onChange',
   });
