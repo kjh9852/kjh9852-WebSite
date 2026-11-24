@@ -43,19 +43,21 @@ export default function TiptapViewer({
   return (
     <div>
       <div className={styles.viewerHeader}>
-        <h2 className={styles.title}>{title}</h2>
-        {actions && actions}
+        <div className={styles.viewerTitle}>
+          <h2 className={styles.title}>{title}</h2>
+          {tags && (
+            <div className={styles.tagList}>
+              {tags?.map((item) => (
+                <span className={styles.tagItem} key={item}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className={styles.viewerMenu}>{actions && actions}</div>
       </div>
       <div className="view-content">
-        {tags && (
-          <div className={styles.tagList}>
-            {tags?.map((item) => (
-              <span className={styles.tagItem} key={item}>
-                {item}
-              </span>
-            ))}
-          </div>
-        )}
         <EditorContent className="sheet" editor={editor} />
       </div>
     </div>

@@ -1,7 +1,4 @@
 .viewerHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   position: sticky;
   top: 0px;
   padding: 16px 0;
@@ -9,6 +6,20 @@
   border-bottom: 1px solid #ededed;
   background: #fff;
   z-index: 2;
+}
+
+.viewerTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.viewerMenu {
+  position: absolute;
+  top: 30px;
+  right: 2px;
 }
 
 .title {
@@ -22,14 +33,14 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-
-  padding: 8px 30px;
 }
 
 .tagItem {
-  padding: 6px 12px;
+  padding: 4px 12px;
 
   border-radius: 16px;
-  background-color: #ededed;
-  color: #444;
+  background-color: #f8f8f8;
+  color: #555;
+
+  font-size: 12px;
 }

@@ -1,3 +1,5 @@
+@use '@/styles/mixins' as *;
+
 .projectList {
   display: flex;
   justify-content: center;
@@ -14,7 +16,6 @@
 
 .projectButton {
   width: 100%;
-  padding-bottom: 16px;
   cursor: pointer;
 }
 
@@ -36,7 +37,6 @@
 }
 
 .title {
-  padding-top: 8px;
   font-size: 18px;
   font-weight: 500;
 }
@@ -46,4 +46,30 @@
   min-height: 300px;
   font-size: 16px;
   color: #fff;
+}
+
+.projectInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 12px 0;
+}
+
+.projectTag {
+  @include flex-center;
+  gap: 6px;
+
+  .tags {
+    padding: 4px 8px;
+    border-radius: 16px;
+    background-color: #ededed;
+    font-size: 12px;
+    color: #444;
+  }
+
+  .moreTags {
+    font-size: 12px;
+    color: #444;
+  }
 }

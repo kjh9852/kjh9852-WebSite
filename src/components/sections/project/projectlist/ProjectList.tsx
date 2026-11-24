@@ -34,7 +34,23 @@ export default function ProjectList({
                 alt={`${item.title} 미리보기`}
               />
             </div>
-            <h2 className={styles.title}>{item.title}</h2>
+            <div className={styles.projectInfo}>
+              <h2 className={styles.title}>{item.title}</h2>
+              {item.tags && (
+                <div className={styles.projectTag}>
+                  {item.tags.slice(0, 3)?.map((tag) => (
+                    <span className={styles.tags} key={tag}>
+                      {tag}
+                    </span>
+                  ))}
+                  {item.tags.length > 3 && (
+                    <span className={styles.moreTags}>
+                      +{item.tags.length - 3}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
           </button>
         </article>
       ))}
