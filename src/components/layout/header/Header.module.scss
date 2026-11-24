@@ -18,6 +18,11 @@
 
   @media (max-width: 767px) {
     backdrop-filter: none;
+    transition: transform 0.3s ease;
+
+    &.isVisible {
+      transform: translateY(-80px);
+    }
 
     &::before {
       background: transparent;
