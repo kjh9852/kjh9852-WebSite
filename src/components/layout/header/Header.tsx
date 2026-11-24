@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import defaultProfile from '@/assets/icons/profile_icon.png';
 import { Dropdown } from '@/components/ui';
@@ -26,7 +26,7 @@ export default function Header() {
   const openModal = useModalStore((state) => state.openModal);
   const { mutate: handleSignOut } = useSignOut();
   const [menuOpen, toggleMenu, setMenuOpen] = useToggle(false);
-
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [loadedImageUrl, setLoadedImageUrl] = useState<string | null>(null);
 
   const displayProfileImage =
@@ -34,8 +34,32 @@ export default function Header() {
       ? user.photoURL
       : defaultProfile;
 
+  useEffect(() => {
+    let prevScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      console.log(currentScrollY);
+      if (currentScrollY < 80) {
+        setIsVisible(true);
+        prevScrollY = currentScrollY;
+        return;
+      }
+
+      setIsVisible(currentScrollY < prevScrollY);
+
+      prevScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${!isVisible ? styles.isVisible : ''}`}
+    >
       <div className={styles.inner}>
         <div className={styles.logo}>
           <a href="/">
