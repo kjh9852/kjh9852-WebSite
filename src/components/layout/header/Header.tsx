@@ -39,7 +39,7 @@ export default function Header() {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      console.log(currentScrollY);
+
       if (currentScrollY < 80) {
         setIsVisible(true);
         prevScrollY = currentScrollY;
