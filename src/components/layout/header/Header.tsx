@@ -41,12 +41,12 @@ export default function Header() {
       const currentScrollY = window.scrollY;
 
       if (currentScrollY < 80) {
-        setIsVisible(true);
+        setIsVisible(false);
         prevScrollY = currentScrollY;
         return;
       }
 
-      setIsVisible(currentScrollY < prevScrollY);
+      setIsVisible(currentScrollY > prevScrollY);
 
       prevScrollY = currentScrollY;
     };
@@ -57,9 +57,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header
-      className={`${styles.header} ${!isVisible ? styles.isVisible : ''}`}
-    >
+    <header className={`${styles.header} ${isVisible ? styles.isVisible : ''}`}>
       <div className={styles.inner}>
         <div className={styles.logo}>
           <a href="/">
